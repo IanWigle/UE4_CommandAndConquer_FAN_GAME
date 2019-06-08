@@ -43,19 +43,22 @@ TODO (Code In order of priority):
 	
 TODO (Models)
 
-	NOD:
-			Light Tank
-			Artillery
-
-			All infantry
-			All Aircraft
-
+	GLOBAL:
+	
 			Silo
 			Sandbags
 			ChainLink
 			Concrete Wall
 			Advanced Power
 			Finish Yard
+
+	NOD:
+			Light Tank
+			Artillery
+
+			All infantry
+			All Aircraft
+			
 			Obelisk
 			Temple
 			
