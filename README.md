@@ -33,6 +33,8 @@ TODO (Code In order of priority):
 	Finish behavior trees for units to attack things.
 	Finish behavior trees for defenses to attack things.
 	
+	Redo Audio settings and audio component for music.
+	
 	Clean up code in both C++ and blueprints.
 	
 	Setup win condition
