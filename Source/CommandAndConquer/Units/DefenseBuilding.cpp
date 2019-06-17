@@ -6,6 +6,26 @@
 #include "Components/ArrowComponent.h"
 #include "HelperFunctions.h"
 #include "Controllers/DefenseBuildingController.h"
+#include "Classes/BehaviorTree/BlackboardComponent.h"
+
+bool ADefenseBuilding::CanDefenseAttack(UnitType othertype)
+{
+	for (UnitType type : m_TypesAllowedToAttack)
+	{	
+		if (type == othertype)
+			return true;
+	}
+
+	return false;
+}
+
+bool ADefenseBuilding::IsUnitAlreadyListed(AUnit * unit)
+{
+	if (m_UnitsInSightRange.Contains(unit))
+		return true;
+	else
+		return false;
+}
 
 ADefenseBuilding::ADefenseBuilding()
 {
@@ -15,6 +35,7 @@ ADefenseBuilding::ADefenseBuilding()
 	m_SightRadiusComponent->SetupAttachment(RootComponent);
 	m_SightRadiusComponent->SetSphereRadius(m_SightRange);
 	m_SightRadiusComponent->OnComponentBeginOverlap.AddDynamic(this, &ADefenseBuilding::OnEnemyEnteredSight);
+	m_SightRadiusComponent->OnComponentEndOverlap.AddDynamic(this, &ADefenseBuilding::OnEnemyLeaveSight);
 
 	m_SpawnArrow = CreateDefaultSubobject<UArrowComponent>("Projectile Spawn Arrow");
 	m_SpawnArrow->bHiddenInGame = false;
@@ -35,6 +56,8 @@ void ADefenseBuilding::UpdateLookAtDirection()
 		LookLocation.Normalize();
 
 		m_LookAtDirection = LookLocation.Rotation();
+
+		
 	}
 	else
 	{
@@ -106,18 +129,13 @@ void ADefenseBuilding::OnEnemyEnteredSight(UPrimitiveComponent* OverlappedCompon
 	bool bFromSweep,
 	const FHitResult &SweepResult)
 {
-	if (OtherActor->GetOwner() != GetOwner())
-	{
-		auto castedActor = Cast<AUnit>(OtherActor);
-		if (castedActor)
-		{
-			for (UnitType type : m_TypesAllowedToAttack)
-			{
-				if (type == castedActor->GetUnitType())
-					return;
-			}
+	auto OtherUnit = Cast<AUnit>(OtherActor);
 
-			m_UnitsInSightRange.Add(castedActor);
+	if (OtherUnit)
+	{
+		if (OtherUnit->m_Team != m_Team && CanDefenseAttack(OtherUnit->GetUnitType()) && !IsUnitAlreadyListed(OtherUnit))
+		{
+			m_UnitsInSightRange.Add(OtherUnit);
 			if (m_UnitsInSightRange.Num() >= 2)
 			{
 				m_Target = GetClosestEnemyInSight();
@@ -125,10 +143,38 @@ void ADefenseBuilding::OnEnemyEnteredSight(UPrimitiveComponent* OverlappedCompon
 			}
 			else
 			{
-				m_Target = castedActor;
+				m_Target = OtherUnit;
 				Cast<ADefenseBuildingController>(GetController())->GetBlackboardComponent()->SetValueAsBool("HasTarget", true);
 			}
-		}			
+		}		
+	}
+}
+
+void ADefenseBuilding::OnEnemyLeaveSight(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	auto OtherUnit = Cast<AUnit>(OtherActor);
+
+	if (OtherUnit)
+	{
+		if (m_UnitsInSightRange.Contains(OtherUnit) && m_Target != OtherUnit)
+		{
+			m_UnitsInSightRange.Remove(OtherUnit);
+		}
+		else if (m_UnitsInSightRange.Contains(OtherUnit) && m_Target == OtherUnit)
+		{
+			m_UnitsInSightRange.Remove(OtherUnit);
+
+			if (m_UnitsInSightRange.Num() == 0)
+			{
+				m_Target = nullptr;
+				Cast<ADefenseBuildingController>(GetController())->GetBlackboardComponent()->SetValueAsBool("HasTarget", false);
+				m_LookAtDirection = FRotator(0.0f, 0.0f, 0.0f);
+			}
+			else
+			{
+				m_Target = GetClosestEnemyInSight();
+			}			
+		}
 	}
 }
 

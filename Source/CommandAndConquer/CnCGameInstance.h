@@ -15,6 +15,6 @@ class COMMANDANDCONQUER_API UCnCGameInstance : public UGameInstance
 	GENERATED_BODY()
 
 public:
-
-		
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float m_MasterAudioVolume;
 };

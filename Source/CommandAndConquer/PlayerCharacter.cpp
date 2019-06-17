@@ -129,9 +129,11 @@ void APlayerCharacter::Tick(float DeltaTime)
 	}
 
 	int tempMaxCredits = 0;
-	for (int i = 0; i < m_PlayerBuildings.Num() - 1; i++)
+	for (int i = 0; i < m_PlayerBuildings.Num(); i++)
 	{
-		if (m_PlayerBuildings[i]->GetBuildingID() == BuildingID::VE_Refinery)
+		if (m_PlayerBuildings[i]->GetBuildingID() == BuildingID::VE_Yard)
+			tempMaxCredits += 1000;
+		else if (m_PlayerBuildings[i]->GetBuildingID() == BuildingID::VE_Refinery)
 			tempMaxCredits += 1000;
 		else if (m_PlayerBuildings[i]->GetBuildingID() == BuildingID::VE_Silo)
 			tempMaxCredits += 1500;
@@ -247,6 +249,7 @@ ALivingUnit * APlayerCharacter::SpawnUnitFromID(LivingUnitID ID)
 							m_PlayerArmy.Add(livingunit);
 							m_EVAVoiceComponent->SetSound(*m_EVASoundsMap.Find("UnitReady"));
 							m_EVAVoiceComponent->Play();
+							livingunit->m_OwningCharacter = this;
 						}
 
 						return livingunit;
@@ -313,22 +316,17 @@ ALivingUnit * APlayerCharacter::SpawnUnitFromID(LivingUnitID ID)
 							m_PlayerArmy.Add(livingunit);
 							m_EVAVoiceComponent->SetSound(*m_EVASoundsMap.Find("UnitReady"));
 							m_EVAVoiceComponent->Play();
-						}							
-
+						}		
 						return livingunit;
 					}
 				}
 			}
 		}		
 	}
-
 	return nullptr;
 }
 
-void APlayerCharacter::ChooseBuildingLocation(FVector requestedPosition)
-{
-
-}
+void APlayerCharacter::ChooseBuildingLocation(FVector requestedPosition) {}
 
 void APlayerCharacter::ResetBuildingProduction()
 {

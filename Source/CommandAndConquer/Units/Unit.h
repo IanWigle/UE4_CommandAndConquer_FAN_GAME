@@ -56,6 +56,12 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (EditCondition = "m_HasVoiceLines"), Category = Audio)
         class UAudioComponent* m_AudioComponent;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+		class APlayerCharacter* m_OwningCharacter;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+		PlayerTeams m_Team;
+
     UFUNCTION(BlueprintCallable)
         UnitType GetUnitType() { return m_UnitType; }
 

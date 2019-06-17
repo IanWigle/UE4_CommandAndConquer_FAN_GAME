@@ -184,6 +184,8 @@ void AInGameController::Select()
 						}
 					}
 
+					building->m_OwningCharacter = player;	
+
 					player->m_PlayerBuildings.Add(building);
 					player->AddToPlayPower(building->GetPowerValue());					
 				}

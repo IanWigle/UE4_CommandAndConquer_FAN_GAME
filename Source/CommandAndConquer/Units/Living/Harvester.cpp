@@ -8,7 +8,7 @@
 #include "Engine/World.h"
 #include "Blueprint/AIBlueprintHelperLibrary.h"
 #include "AI/HarvesterController.h"
-#include "Units/Buildings/Global/TiberiumRefinery.h"
+
 
 void AHarvester::BeginPlay()
 {

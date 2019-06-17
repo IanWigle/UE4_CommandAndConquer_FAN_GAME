@@ -4,6 +4,7 @@
 #include "Unit.h"
 #include "Components/AudioComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "PlayerCharacter.h"
 
 // Sets default values
 AUnit::AUnit()

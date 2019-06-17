@@ -128,3 +128,16 @@ enum TiberiumWorth
 	WORTHLVL2 = 160,
 	WORTHLVL3 = 250,
 };
+
+UENUM(BlueprintType)
+enum class PlayerTeams : uint8 
+{
+	VE_Team1	UMETA(DisplayName = "Team 1"),
+	VE_Team2	UMETA(DisplayName = "Team 2"),
+	VE_Team3	UMETA(DisplayName = "Team 3"),
+	VE_Team4	UMETA(DisplayName = "Team 4"),
+	VE_Team5	UMETA(DisplayName = "Team 5"),
+	VE_Team6	UMETA(DisplayName = "Team 6"),
+	VE_Team7	UMETA(DisplayName = "Team 7"),
+	VE_Team8	UMETA(DisplayName = "Team 8"),
+};

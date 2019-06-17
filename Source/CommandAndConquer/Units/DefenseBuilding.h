@@ -44,24 +44,31 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class USphereComponent* m_SightRadiusComponent;	
 
+	bool CanDefenseAttack(UnitType othertype);
+	bool IsUnitAlreadyListed(AUnit* unit);
+
 public:
 	ADefenseBuilding();
 
+	/**Update the LookAtDirection */
 	UFUNCTION(BlueprintCallable)
 		void UpdateLookAtDirection();
 
 	UFUNCTION(BlueprintCallable)
 		FRotator GetLookAtDirection() { return m_LookAtDirection; };
 
+	/**If the defense has a target	*/
 	UFUNCTION(BlueprintCallable)
 		bool HasTarget();
 
+	/** Get the closest unit that is in the Defense's sight.*/
 	UFUNCTION(BlueprintCallable)
 		class AUnit* GetClosestEnemyInSight();
 
 	UFUNCTION(BlueprintCallable)
 		void ResetTargetPointer() { m_Target = nullptr; }
 
+	/** Check to see if the target is still in range.*/
 	UFUNCTION(BlueprintCallable)
 		bool IsTargetUnitInAttackRange();
 
@@ -75,6 +82,12 @@ public:
 			int32 OtherBodyIndex,
 			bool bFromSweep,
 			const FHitResult &SweepResult);
+
+	UFUNCTION()
+		virtual void OnEnemyLeaveSight(UPrimitiveComponent* OverlappedComp, 
+			AActor* OtherActor, 
+			UPrimitiveComponent* OtherComp, 
+			int32 OtherBodyIndex);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class UArrowComponent* m_SpawnArrow;

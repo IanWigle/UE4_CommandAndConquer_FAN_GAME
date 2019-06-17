@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Units/Vehicle.h"
+#include "Units/Buildings/Global/TiberiumRefinery.h"
 #include "Harvester.generated.h"
 
 /**
@@ -38,7 +39,7 @@ public:
 		int m_Cargo = 0;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Refinery")
-		class ATiberiumRefinery* m_OwningRefinery;
+		ATiberiumRefinery* m_OwningRefinery;
 
 	UFUNCTION()
 		virtual void OnComponentBeginOverlap(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);

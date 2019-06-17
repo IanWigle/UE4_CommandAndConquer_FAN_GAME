@@ -216,6 +216,8 @@ public:
 	{
 		return GetWorld()->IsPlayInEditor();
 	}
+	UFUNCTION(BlueprintCallable)
+		int GetMaxUserCredits() { return m_MaxCredits; }
 #pragma endregion Misc
 
 #pragma region Audio
@@ -230,4 +232,7 @@ public:
 		
 
 #pragma endregion Audio
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+		PlayerTeams m_PlayerTeam;
 };
