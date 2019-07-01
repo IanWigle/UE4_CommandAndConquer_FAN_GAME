@@ -29,6 +29,7 @@
 #include "Units/Buildings/NOD/HandOfNod.h"
 #include "Units/Buildings/NOD/Turret.h"
 #include "Units/Buildings/NOD/SAM.h"
+#include "Units/Buildings/NOD/Obelisk.h"
 #pragma endregion Buildings
 
 AInGameController::AInGameController()
@@ -293,7 +294,7 @@ ABuilding* AInGameController::SpawnBuildingFromID(BuildingID ID, FTransform spaw
         case BuildingID::VE_Airfield:
 			return Cast<ABuilding>(GetWorld()->SpawnActor<AAirfield>(*player->m_BuildingArsenal.Find("Airfield"), spawnTransform, SpawnParams));
         case BuildingID::VE_Obelisk:
-            break;
+			return Cast<ABuilding>(GetWorld()->SpawnActor<AObelisk>(*player->m_BuildingArsenal.Find("Obelisk"), spawnTransform, SpawnParams));
         case BuildingID::VE_Temple:
             break;
         default:

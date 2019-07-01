@@ -17,6 +17,7 @@ Current functionalities:
 		
 	Audio Settings
 		Is there but needs revision.
+		Audio settings seem to not affect game.
 		
 	Tiberium
 		Crystal 'grows' through three different levels. When at max level it will create another crystal.
@@ -28,7 +29,7 @@ Current functionalities:
 
 TODO (Code In order of priority):
 
-	Istablish remaining structures for both GDI and NOD.
+	Establish remaining structures for both GDI and NOD.
 
 	Finish behavior trees for units to attack things.
 	Finish behavior trees for defenses to attack things.
@@ -39,7 +40,7 @@ TODO (Code In order of priority):
 	
 	Setup win condition
 	
-	Setup single player lobby that will save data to game instance for game propeerties.
+	Setup single player lobby that will save data to game instance for game properties.
 	
 TODO (Models)
 
@@ -59,7 +60,6 @@ TODO (Models)
 			All infantry
 			All Aircraft
 			
-			Obelisk
 			Temple
 			
 	GDI:
