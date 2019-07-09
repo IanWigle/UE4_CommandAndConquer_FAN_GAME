@@ -66,6 +66,6 @@ TODO (Models)
 	
 			EVERYTHING
 			
-For a move updated TODO:
+For a more updated TODO:
 https://trello.com/b/boiXCwAf/ue422-commandconquer
 			
