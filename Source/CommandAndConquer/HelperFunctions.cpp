@@ -10,23 +10,27 @@
 
 float UHelperFunctions::TimeRemainingInAnimationFromStateMachine(class ACharacter* a_character, FName a_StateMachineName, FName a_StateName)
 {
-    FAnimNode_StateMachine* stateMachine = a_character->GetMesh()->GetAnimInstance()->GetStateMachineInstanceFromName(a_StateMachineName);
-
-	if (stateMachine)
+	if (a_character)
 	{
-		if (stateMachine->GetCurrentStateName() == a_StateName)
+		FAnimNode_StateMachine* stateMachine = a_character->GetMesh()->GetAnimInstance()->GetStateMachineInstanceFromName(a_StateMachineName);
+
+		if (stateMachine)
 		{
-			int32 stateMachineIndex = a_character->GetMesh()->GetAnimInstance()->GetStateMachineIndex(a_StateMachineName);
-			int32 currentStateIndex = stateMachine->GetCurrentState();
 			if (stateMachine->GetCurrentStateName() == a_StateName)
 			{
-				float timeRemaining = a_character->GetMesh()->GetAnimInstance()->GetRelevantAnimTimeRemaining(stateMachineIndex, currentStateIndex);
-				return timeRemaining;
+				int32 stateMachineIndex = a_character->GetMesh()->GetAnimInstance()->GetStateMachineIndex(a_StateMachineName);
+				int32 currentStateIndex = stateMachine->GetCurrentState();
+				if (stateMachine->GetCurrentStateName() == a_StateName)
+				{
+					float timeRemaining = a_character->GetMesh()->GetAnimInstance()->GetRelevantAnimTimeRemaining(stateMachineIndex, currentStateIndex);
+					return timeRemaining;
+				}
+				return -1;
 			}
 			return -1;
 		}
-		return -1;
-	}    
+	}
+        
     return -1;
 }
 
