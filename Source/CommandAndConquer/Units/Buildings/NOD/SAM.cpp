@@ -14,7 +14,7 @@ void ASAM::BeginPlay()
 
 ASAM::ASAM()
 {
-	m_GroundAttackDamage = 50.0f;
+	m_AttackDamage = 50.0f;
 	m_AttackCooldown = 50.0f;
 	m_AttackRange = 300.0f;
 	m_SightRange = 400.0f;

@@ -7,12 +7,12 @@
 void ATurret::BeginPlay()
 {
 	Super::BeginPlay();
-	UHelperFunctions::AttachComponentToSkeletalMeshSocket("BarrelShotSocket", m_SpawnArrow, GetMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale);
+	UHelperFunctions::AttachComponentToSkeletalMeshSocket("BarrelShotSocket", reinterpret_cast<UPrimitiveComponent*>(m_SpawnArrow), GetMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale);
 }
 
 ATurret::ATurret()
 {
-	m_GroundAttackDamage = 40.0f;
+	m_AttackDamage = 40.0f;
 	m_AttackCooldown = 60.0f;
 	m_AttackRange = 500.0f;
 	m_SightRange = 600.0f;

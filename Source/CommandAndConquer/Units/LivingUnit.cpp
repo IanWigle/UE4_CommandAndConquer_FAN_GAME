@@ -2,6 +2,7 @@
 
 
 #include "LivingUnit.h"
+#include "UnrealNetwork.h"
 #include "Components/BoxComponent.h"
 
 ALivingUnit::ALivingUnit() 
@@ -10,10 +11,17 @@ ALivingUnit::ALivingUnit()
 	m_LivingUnitCollider->SetCollisionObjectType(ECC_Visibility);
 	m_LivingUnitCollider->SetCollisionProfileName("BlockAllDynamic");
 	m_LivingUnitCollider->SetupAttachment(RootComponent);
-	m_LivingUnitCollider->SetCanEverAffectNavigation(false);
+	m_LivingUnitCollider->SetCanEverAffectNavigation(true);
 }
 
 void ALivingUnit::BeginPlay()
 {
 	Super::BeginPlay();
+}
+
+void ALivingUnit::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(ALivingUnit, m_LivingUnitCollider);
 }

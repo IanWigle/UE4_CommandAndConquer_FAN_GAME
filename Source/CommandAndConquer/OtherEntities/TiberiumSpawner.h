@@ -25,13 +25,13 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Crystal Data")
 		int m_MaxinumCrystalsForPool = 40;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Crystal Data")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, NoClear, Category = "Crystal Data")
 		int m_NumberOfActiveCrystals = 0;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Crystal Data")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ClampMin = "100"), Category = "Crystal Data")
 		float m_SpawnCrystalRadius = 100.0f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Crystal Data")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ClampMin = "1"), Category = "Crystal Data")
 		int m_NumberOfSpawningCrystals = 1;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Crystal Data")
@@ -40,13 +40,11 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Crystal Data")
 		FTimerHandle m_SpawnCrystalHandle;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Crystal Data")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ClampMin = "1"), Category = "Crystal Data")
 		float m_MinTimeToSpawn = 1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Crystal Data")
-		float m_MaxTimeToSpawn = 5;
-
-	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ClampMax = "5"), Category = "Crystal Data")
+		float m_MaxTimeToSpawn = 5;	
 
 	void SpawnNewCrystal();
 public:	

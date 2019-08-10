@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "EnumTypes.h"
+#include "GameModes/MultiPlayerGameMode.h"
 #include "PlayerCharacter.generated.h"
 
 UCLASS()
@@ -15,6 +16,9 @@ class COMMANDANDCONQUER_API APlayerCharacter : public APawn
 public:
 	// Sets default values for this pawn's properties
 	APlayerCharacter();
+
+private:
+	friend class AMultiPlayerGameMode;
 
 protected:
 	// Called when the game starts or when spawned
@@ -70,6 +74,8 @@ protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "YardPlayAnimation")
         bool m_YardIsMakingBuilding = false;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		PlayerFaction m_PlayerFaction;
 	
 public:	
 	// Called every frame
@@ -235,4 +241,10 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 		PlayerTeams m_PlayerTeam;
+
+	UFUNCTION(Exec, meta = (DevelopmentOnly))
+		void AddCredits(int credits) { m_Credits += credits; }
+
+	UFUNCTION(BlueprintPure, BlueprintCallable)
+		PlayerFaction GetPlayerFaction() { return m_PlayerFaction; }
 };

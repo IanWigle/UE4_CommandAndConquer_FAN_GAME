@@ -1,5 +1,7 @@
 #pragma once
+
 #include "CoreMinimal.h"
+#include "EnumTypes.generated.h"
 
 UENUM(BlueprintType)
 enum class UnitType : uint8
@@ -132,6 +134,7 @@ enum TiberiumWorth
 UENUM(BlueprintType)
 enum class PlayerTeams : uint8 
 {
+	VE_Team0	UMETA(DisplayName = "Team 0"),
 	VE_Team1	UMETA(DisplayName = "Team 1"),
 	VE_Team2	UMETA(DisplayName = "Team 2"),
 	VE_Team3	UMETA(DisplayName = "Team 3"),
@@ -141,3 +144,11 @@ enum class PlayerTeams : uint8
 	VE_Team7	UMETA(DisplayName = "Team 7"),
 	VE_Team8	UMETA(DisplayName = "Team 8"),
 };
+
+UENUM(BlueprintType)
+enum class PlayerFaction : uint8
+{
+	VE_NOD		UMETA(DisplayName = "NOD"),
+	VE_GDI		UMETA(DisplayName = "GDI")
+};
+

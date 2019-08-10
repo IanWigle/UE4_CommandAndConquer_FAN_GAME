@@ -8,8 +8,10 @@ public class CommandAndConquer : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
-        PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay", "NavigationSystem", "AIModule", "UMG" });
+        PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay",
+            "NavigationSystem", "AIModule", "UMG", "OnlineSubsystem", "OnlineSubsystemUtils" });
 
+        DynamicallyLoadedModuleNames.Add("OnlineSubsystemNull");
         PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
     }
 }

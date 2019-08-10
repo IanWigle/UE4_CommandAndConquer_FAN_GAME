@@ -18,7 +18,7 @@ class COMMANDANDCONQUER_API ADefenseBuilding : public ABuilding
 protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float m_GroundAttackDamage;
+		float m_AttackDamage;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		float m_AttackCooldown;
@@ -32,7 +32,7 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		FRotator m_LookAtDirection = FRotator(0.0f);
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated)
 		class AUnit* m_Target = nullptr;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)

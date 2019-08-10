@@ -2,6 +2,7 @@
 
 
 #include "ProductionBuilding.h"
+#include "UnrealNetwork.h"
 #include "Components/AudioComponent.h"
 
 
@@ -20,4 +21,11 @@ void AProductionBuilding::SetPrimaryBuilding(bool state)
 		m_AudioComponent->SetSound(m_PrimaryBuildingVoice);
 		m_AudioComponent->Play();
 	}
+}
+
+void AProductionBuilding::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(AProductionBuilding, m_SpawnLocation);
 }

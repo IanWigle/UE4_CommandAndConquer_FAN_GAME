@@ -24,12 +24,12 @@ public:
 
 	ALivingUnit();
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, meta = (ClampMin = "0"))
 		float m_PrimaryDamage = 0;
 
 	UFUNCTION(BlueprintCallable)
 		UnitRange GetUnitRange() { return m_UnitRange; }
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated)
 		class UBoxComponent* m_LivingUnitCollider;
 };

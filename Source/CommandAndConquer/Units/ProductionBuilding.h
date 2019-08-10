@@ -17,7 +17,7 @@ class COMMANDANDCONQUER_API AProductionBuilding : public ABuilding
 
 protected:
 
-	UPROPERTY(EditAnywhere, Category = "Production Building")
+	UPROPERTY(EditAnywhere, Category = "Production Building", Replicated)
 		UArrowComponent* m_SpawnLocation;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Production Building")
 		bool m_IsPrimaryBuilding;

@@ -6,6 +6,7 @@
 #include "Components/ArrowComponent.h"
 #include "HelperFunctions.h"
 #include "Controllers/DefenseBuildingController.h"
+#include "UnrealNetwork.h"
 #include "Classes/BehaviorTree/BlackboardComponent.h"
 
 bool ADefenseBuilding::CanDefenseAttack(UnitType othertype)
@@ -131,23 +132,31 @@ void ADefenseBuilding::OnEnemyEnteredSight(UPrimitiveComponent* OverlappedCompon
 {
 	auto OtherUnit = Cast<AUnit>(OtherActor);
 
+	// IF cast successful
 	if (OtherUnit)
 	{
+		// IF the unit is from an opposing team AND is the defense able to attack it AND is the unit NOT on the list of nearby targets
 		if (OtherUnit->m_Team != m_Team && CanDefenseAttack(OtherUnit->GetUnitType()) && !IsUnitAlreadyListed(OtherUnit))
 		{
 			m_UnitsInSightRange.Add(OtherUnit);
+			// IF UnitsInSightRange is 2 OR MORE
 			if (m_UnitsInSightRange.Num() >= 2)
 			{
 				m_Target = GetClosestEnemyInSight();
 				Cast<ADefenseBuildingController>(GetController())->GetBlackboardComponent()->SetValueAsBool("HasTarget", true);
 			}
+			// END IF
+			// ELSE
 			else
 			{
 				m_Target = OtherUnit;
 				Cast<ADefenseBuildingController>(GetController())->GetBlackboardComponent()->SetValueAsBool("HasTarget", true);
 			}
+			// END ELSE
 		}		
+		// END IF
 	}
+	// END IF
 }
 
 void ADefenseBuilding::OnEnemyLeaveSight(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
@@ -176,5 +185,13 @@ void ADefenseBuilding::OnEnemyLeaveSight(UPrimitiveComponent* OverlappedComp, AA
 			}			
 		}
 	}
+}
+
+void ADefenseBuilding::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(ADefenseBuilding, m_Target);
+	//DOREPLIFETIME(ADefenseBuilding, m_SpawnArrow);
 }
 

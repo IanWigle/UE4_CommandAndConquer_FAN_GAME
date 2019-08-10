@@ -20,39 +20,39 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Crystal Data")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Crystal Data")
 		int m_CreditWorth = 0;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Crystal Data")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Crystal Data")
 		TiberiumLevels m_TiberiumLevel = TiberiumLevels::VE_LVL1;
 
 	TiberiumWorth m_TiberiumWorth = WORTHLVL1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Crystal Data")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Crystal Data")
 		FTimerHandle m_SpawnCrystalHandle;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Crystal Data")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Crystal Data")
 		FTimerHandle m_GrowCrystalHandle;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Crystal Data")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Crystal Data")
 		float m_SpawnCrystalRadius = 100.0f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Crystal Data")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ClampMin = "1", ClampMax = "5"), Category = "Crystal Data")
 		int m_NumberOfSpawningCrystals = 1;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Crystal Data")
 		class UBoxComponent* m_BoxForFutureCrystal;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Crystal Data")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ClampMin = "1"), Category = "Crystal Data")
 		float m_MinTimeToSpawn = 1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Crystal Data")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ClampMax = "5"), Category = "Crystal Data")
 		float m_MaxTimeToSpawn = 5;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Crystal Data")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ClampMin = "1"), Category = "Crystal Data")
 		float m_MinTimeToGrow = 1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Crystal Data")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ClampMax = "5"), Category = "Crystal Data")
 		float m_MaxTimeToGrow = 5;
 
 	void Grow();

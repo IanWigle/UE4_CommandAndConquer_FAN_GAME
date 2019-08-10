@@ -21,9 +21,9 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Unit Data")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Unit Data", Replicated)
 	    UnitType m_UnitType = UnitType::VE_NoType;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Unit Data")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Unit Data", Replicated)
 		UnitArmor m_UnitArmor = UnitArmor::VE_None;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Unit Data")
@@ -32,12 +32,12 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Unit Data")
 		float m_MaxHealth = 0;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Unit Data")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Unit Data", Replicated)
 		float m_Health = 0;
 
     bool m_IsSelected = false;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Audio)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio")
         bool m_HasVoiceLines = false;
 
 public:	
@@ -59,19 +59,19 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 		class APlayerCharacter* m_OwningCharacter;
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated)
 		PlayerTeams m_Team;
 
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, BlueprintPure)
         UnitType GetUnitType() { return m_UnitType; }
 
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, BlueprintPure)
         UnitArmor GetUnitArmor() { return m_UnitArmor; }
 
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, BlueprintPure)
         FName GetUnitName() { return m_UnitName; }
 
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, BlueprintPure)
         bool IsSelected() { return m_IsSelected; }
 
     UFUNCTION(BlueprintCallable) 

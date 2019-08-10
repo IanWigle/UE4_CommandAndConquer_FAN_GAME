@@ -38,18 +38,18 @@ public:
     // Called every frame
     virtual void Tick(float DeltaTime) override;
 
-    UPROPERTY(BlueprintReadWrite, EditAnywhere)
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated)
         class UBoxComponent* m_BuildingCollider;
 
     UPROPERTY(BlueprintReadWrite, EditAnywhere)
         class UStaticMeshComponent* m_StaticMesh;
 
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, BlueprintPure)
         BuildingID GetBuildingID() { return m_BuildingID; }
 
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, BlueprintPure)
         int GetPowerValue() { return m_Power; }
 
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, BlueprintPure)
         int GetBuildingCost() { return m_Cost; }
 };

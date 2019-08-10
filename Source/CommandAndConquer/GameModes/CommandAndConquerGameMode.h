@@ -14,7 +14,7 @@ class ACommandAndConquerGameMode : public AGameModeBase
 public:
 	ACommandAndConquerGameMode();
 
-	UPROPERTY(EditAnywhere, Category = "Credits")
+	UPROPERTY(EditAnywhere,Category = "Credits", meta = (ClampMin = "5000"))
 		int m_StartingCredits;
 };
 

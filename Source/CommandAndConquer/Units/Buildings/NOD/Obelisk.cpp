@@ -5,7 +5,7 @@
 
 AObelisk::AObelisk()
 {
-	m_GroundAttackDamage = 200.0f;
+	m_AttackDamage = 200.0f;
 	m_AttackCooldown = 90.0f;
 	m_AttackRange = 750.0f;
 	m_SightRange = 500.0f;

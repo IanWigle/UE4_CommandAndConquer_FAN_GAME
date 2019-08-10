@@ -18,6 +18,7 @@ class COMMANDANDCONQUER_API AInGameController : public APlayerController
 public:
     AInGameController();
 
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
     bool m_UnitsAreSelected = false;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)

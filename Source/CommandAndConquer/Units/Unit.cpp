@@ -4,6 +4,7 @@
 #include "Unit.h"
 #include "Components/AudioComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "UnrealNetwork.h"
 #include "PlayerCharacter.h"
 
 // Sets default values
@@ -14,6 +15,8 @@ AUnit::AUnit()
 
     m_AudioComponent = CreateDefaultSubobject<UAudioComponent>("Audio Component");    
 //	GetCapsuleComponent()->SetCanEverAffectNavigation(true);
+	SetReplicates(true);
+	SetReplicateMovement(true);
 }
 
 // Called when the game starts or when spawned
@@ -73,3 +76,12 @@ void AUnit::SayAcknowledgments(int specificacknowledgment)
     }
 }
 
+void AUnit::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(AUnit, m_UnitType);
+	DOREPLIFETIME(AUnit, m_UnitArmor);
+	DOREPLIFETIME(AUnit, m_Health);
+	DOREPLIFETIME(AUnit, m_Team);
+}

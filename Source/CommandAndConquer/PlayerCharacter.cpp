@@ -14,6 +14,7 @@
 #include "Components/SceneCaptureComponent2D.h"
 #include "GameModes/CommandAndConquerGameMode.h"
 #include "Components/AudioComponent.h"
+#include "GameModes/MultiPlayerGameMode.h"
 
 #pragma region Unit Headers
 #include "Units/ProductionBuilding.h"
@@ -66,7 +67,7 @@ void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	auto gm = Cast<ACommandAndConquerGameMode>(GetWorld()->GetAuthGameMode());
+	auto gm = Cast<AMultiPlayerGameMode>(GetWorld()->GetAuthGameMode());
 	if (gm)
 		m_Credits = gm->m_StartingCredits;
 	else

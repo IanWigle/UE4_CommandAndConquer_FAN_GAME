@@ -3,6 +3,7 @@
 
 #include "Building.h"
 #include "Components/BoxComponent.h"
+#include "UnrealNetwork.h"
 #include "Components/StaticMeshComponent.h"
 
 ABuilding::ABuilding()
@@ -11,6 +12,8 @@ ABuilding::ABuilding()
     m_BuildingCollider->SetCollisionObjectType(ECC_Visibility);
     m_BuildingCollider->SetCollisionProfileName("OverlapAllDynamic");
 	m_BuildingCollider->SetupAttachment(RootComponent);
+	m_BuildingCollider->bDynamicObstacle = true;
+	m_BuildingCollider->SetCanEverAffectNavigation(true);
     //RootComponent = m_BuildingCollider;
 
     m_StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>("Building Mesh");
@@ -28,4 +31,11 @@ void ABuilding::BeginPlay()
 void ABuilding::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
+}
+
+void ABuilding::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(ABuilding, m_BuildingCollider);
 }
