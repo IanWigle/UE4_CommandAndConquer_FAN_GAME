@@ -26,5 +26,13 @@ public:
 
 	//UFUNCTION(BlueprintCallable, Category = "Superweapon")
 		virtual void SuperweaponReady() override;
+
+		UPROPERTY(EditAnywhere, BlueprintReadWrite)
+			TSubclassOf<class ANukeclearMissile> m_MissileObject;
+
+		virtual void LaunchWeapon() override;
+
+		UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+			ANukeclearMissile* m_SpawnedMissile;
 	
 };

@@ -11,7 +11,7 @@ ALivingUnit::ALivingUnit()
 	m_LivingUnitCollider->SetCollisionObjectType(ECC_Visibility);
 	m_LivingUnitCollider->SetCollisionProfileName("BlockAllDynamic");
 	m_LivingUnitCollider->SetupAttachment(RootComponent);
-	m_LivingUnitCollider->SetCanEverAffectNavigation(true);
+	//m_LivingUnitCollider->SetCanEverAffectNavigation(true);
 }
 
 void ALivingUnit::BeginPlay()

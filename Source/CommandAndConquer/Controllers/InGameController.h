@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
 #include "EnumTypes.h"
+#include "Engine/World.h"
+
 #include "InGameController.generated.h"
 
 /**
@@ -24,7 +26,12 @@ public:
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 		TArray<class ALivingUnit*> m_SelectedUnits;
 
-    class ABuilding* SpawnBuildingFromID(BuildingID ID, FTransform spawnTransform, FActorSpawnParameters SpawnParams);
+    void SpawnBuildingFromID(FVector TargetLocation);
+
+	UFUNCTION(Server, Reliable, WithValidation)
+		void Server_SpawnBuildingFromID(FVector TargetLocation);
+		bool Server_SpawnBuildingFromID_Validate(FVector TargetLocation) { return true; }
+		void Server_SpawnBuildingFromID_Implementation(FVector TargetLocation);
 
     UPROPERTY(EditAnywhere)
         class USoundBase* m_NewConstructionOptions;
@@ -38,6 +45,8 @@ protected:
     void MoveRight(float value);
     void MoveUp(float value);
     void ScrollIn(float value);
+
+	void MiniMapZoom(float value);
 	
     void Select();
     void SelectMultiple();

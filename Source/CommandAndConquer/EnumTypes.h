@@ -152,3 +152,11 @@ enum class PlayerFaction : uint8
 	VE_GDI		UMETA(DisplayName = "GDI")
 };
 
+UENUM(BlueprintType)
+enum class NukeMissileDirection : uint8
+{
+	VE_NA		UMETA(DisplayName = "NA"),
+	VE_UP		UMETA(DisplayName = "UP"),
+	VE_DOWN		UMETA(DisplayName = "DOWN"),
+};
+

@@ -32,11 +32,13 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Track Data")
 		bool m_ToggleMusic = true;
 
+	void DetermineNewSong();
+
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-    UPROPERTY(EditAnywhere)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
         class UAudioComponent* m_AudioComponent;
 
     UPROPERTY(EditAnywhere, Category = "Music List")
@@ -51,25 +53,28 @@ public:
     UFUNCTION(BlueprintCallable)
         bool IsRandom() { return m_RandomSong; }
 
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, Exec)
         void SetOnLoop(bool state) { m_OnLoop = state; }
 
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, Exec)
         void SetRandom(bool state) { m_RandomSong = state; }
 
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, Exec)
         void NextSong();
 
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, Exec)
         void PreviousSong();
 
     UFUNCTION(BlueprintCallable)
         class USoundBase* GetCurrentSong() { return m_Songs[m_CurrentTrack]; }
 
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, Exec)
         void ToggleMusic(bool state);
 
     UFUNCTION(BlueprintCallable)
         bool GetToggleMusic() { return m_ToggleMusic; }
+
+	UFUNCTION(BlueprintCallable, Exec)
+		void PlayCertainSong(int track);
 		
 };

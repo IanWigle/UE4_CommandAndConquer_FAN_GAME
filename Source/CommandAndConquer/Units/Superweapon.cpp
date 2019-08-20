@@ -28,6 +28,11 @@ void ASuperweapon::BeginPlay()
 		m_SuperWeaponAudioComponent->SetSound(m_SuperweaonReadyAudio);
 }
 
+void ASuperweapon::LaunchWeapon()
+{
+	GetWorld()->GetTimerManager().SetTimer(m_CountdownHandle, this, &ASuperweapon::SuperweaponReady, m_Countdown, false);
+}
+
 void ASuperweapon::PauseCountdown()
 {
 	if (GetWorld()->GetTimerManager().IsTimerActive(m_CountdownHandle))

@@ -41,7 +41,7 @@ public:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated)
         class UBoxComponent* m_BuildingCollider;
 
-    UPROPERTY(BlueprintReadWrite, EditAnywhere)
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated)
         class UStaticMeshComponent* m_StaticMesh;
 
     UFUNCTION(BlueprintCallable, BlueprintPure)

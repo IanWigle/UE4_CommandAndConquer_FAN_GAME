@@ -5,6 +5,8 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/ArrowComponent.h"
 #include "HelperFunctions.h"
+#include "OtherEntities/NukeclearMissile.h"
+#include "Engine/World.h"
 
 ATempleOfNod::ATempleOfNod()
 {
@@ -13,6 +15,7 @@ ATempleOfNod::ATempleOfNod()
 	m_Missile->bHiddenInGame = true;
 	FVector origin = m_MissileSpawnArrow->GetComponentLocation();
 	m_Missile->SetWorldLocation(origin);
+	m_SpawnedMissile = nullptr;
 }
 
 void ATempleOfNod::BeginPlay()
@@ -39,5 +42,18 @@ void ATempleOfNod::SuperweaponReady()
 {
 	Super::SuperweaponReady();
 
-	m_Missile->bHiddenInGame = false;
+	//m_Missile->bHiddenInGame = false;
+
+	FVector SpawnTrans = m_MissileSpawnArrow->GetComponentTransform().GetLocation();
+
+	FActorSpawnParameters spawnParams;
+	spawnParams.Owner = this;
+
+	m_SpawnedMissile = GetWorld()->SpawnActor<ANukeclearMissile>(m_MissileObject, SpawnTrans, FRotator(0, 0, 0), spawnParams);
+}
+
+void ATempleOfNod::LaunchWeapon()
+{
+	Super::LaunchWeapon();
+	m_SpawnedMissile->ShootMissile();
 }

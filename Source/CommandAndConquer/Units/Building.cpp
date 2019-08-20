@@ -38,4 +38,5 @@ void ABuilding::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetim
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(ABuilding, m_BuildingCollider);
+	DOREPLIFETIME(ABuilding, m_StaticMesh);
 }

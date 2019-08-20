@@ -21,6 +21,27 @@ void UMusicPlayerComponent::BeginPlay()
 	Super::BeginPlay();
 }
 
+void UMusicPlayerComponent::DetermineNewSong()
+{
+	if (IsOnLoop())
+		m_AudioComponent->Play();
+	else
+	{
+		if (IsRandom())
+		{
+			m_CurrentTrack = (int)(FMath::RandRange(0, m_Songs.Num()));
+			if (!m_Songs.IsValidIndex(m_CurrentTrack))
+				m_CurrentTrack = 0;
+		}
+		else
+		{
+			m_CurrentTrack++;
+			if (m_CurrentTrack >= m_Songs.Num())
+				m_CurrentTrack = 0;
+		}
+	}
+}
+
 
 // Called every frame
 void UMusicPlayerComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -28,45 +49,23 @@ void UMusicPlayerComponent::TickComponent(float DeltaTime, ELevelTick TickType, 
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// ...
-    if (m_Songs.IsValidIndex(m_CurrentTrack) && m_ToggleMusic)
-    {
-        if (!m_AudioComponent->IsPlaying())
-        {
-            if (m_OnLoop)
-            {
-                m_AudioComponent->Play();
-                return;
-            }
-            else
-            {
-                if (m_RandomSong)
-                    m_CurrentTrack = (int)FMath::RandRange(0, m_Songs.Num() - 1);
-                else
-                {
-                    m_CurrentTrack++;
-                    if (m_CurrentTrack >= m_Songs.Num())
-                        m_CurrentTrack = 0;
+	if (!m_AudioComponent->IsPlaying() && m_ToggleMusic)
+	{
+		DetermineNewSong();
 
-                    m_AudioComponent->SetSound(m_Songs[m_CurrentTrack]);
-                    m_AudioComponent->Play();
-                    return;
-                }
-            }
-        }
-    }
-    else
-        m_CurrentTrack = 0;
+		m_AudioComponent->SetSound(m_Songs[m_CurrentTrack]);
+		m_AudioComponent->Play();
+	}
 }
 
 void UMusicPlayerComponent::NextSong()
 {
-    m_CurrentTrack++;
-    if (m_CurrentTrack >= m_Songs.Num())
-        m_CurrentTrack = 0;
+	DetermineNewSong();
 
-    m_AudioComponent->Stop();
-    m_AudioComponent->SetSound(m_Songs[m_CurrentTrack]);
-    m_AudioComponent->Play();
+	m_AudioComponent->Stop();
+	m_AudioComponent->SetSound(m_Songs[m_CurrentTrack]);
+	m_AudioComponent->Play();
+	
 }
 
 void UMusicPlayerComponent::PreviousSong()
@@ -82,14 +81,20 @@ void UMusicPlayerComponent::PreviousSong()
 
 void UMusicPlayerComponent::ToggleMusic(bool state)
 {
-    if (state)
-    {
-        m_ToggleMusic = true;
-        m_AudioComponent->Stop();
-    }
-    else
-    {
-        m_ToggleMusic = false;
-        m_AudioComponent->Play();
-    }
+	m_ToggleMusic = !m_ToggleMusic;
+
+	if (m_ToggleMusic)
+		m_AudioComponent->Play();
+	else
+		m_AudioComponent->Stop();
+}
+
+void UMusicPlayerComponent::PlayCertainSong(int track)
+{
+	if (m_Songs.IsValidIndex(track))
+	{
+		m_AudioComponent->Stop();
+		m_AudioComponent->SetSound(m_Songs[m_CurrentTrack]);
+		m_AudioComponent->Play();
+	}
 }

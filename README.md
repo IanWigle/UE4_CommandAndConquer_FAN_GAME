@@ -66,6 +66,13 @@ TODO (Models)
 	
 			EVERYTHING
 			
+Current Plugins in use with project/engine:
+
+	Horizon UI Plugin
+	Save Extension
+	Export PNG
+	
+			
 For a more updated TODO:
 https://trello.com/b/boiXCwAf/ue422-commandconquer
 			

@@ -15,6 +15,7 @@
 #include "GameModes/CommandAndConquerGameMode.h"
 #include "Components/AudioComponent.h"
 #include "GameModes/MultiPlayerGameMode.h"
+#include "UnrealNetwork.h"
 
 #pragma region Unit Headers
 #include "Units/ProductionBuilding.h"
@@ -44,6 +45,8 @@ APlayerCharacter::APlayerCharacter()
 	m_PlayerCamera->bUsePawnControlRotation = false;
 
 	m_MusicPlayer = CreateDefaultSubobject<UMusicPlayerComponent>("Music Player");
+	m_MusicPlayer->SetRandom(false);
+	m_MusicPlayer->SetOnLoop(false);
 
 	m_RadarCameraArm = CreateDefaultSubobject<USpringArmComponent>("Radar Camera Arm");
 	m_RadarCameraArm->SetupAttachment(RootComponent);
@@ -391,3 +394,19 @@ void APlayerCharacter::ScrollIn(float value)
 	}
 }
 
+void APlayerCharacter::MiniMapZoom(float value)
+{
+	//m_RadarCameraArm->TargetArmLength += value;
+	FVector origin = RadarCamera->GetComponentLocation();
+	origin.Z += value * m_RadarZoomSpeed;
+	RadarCamera->SetWorldLocation(origin);
+}
+
+void APlayerCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(APlayerCharacter, m_BuildingThatIsBeingMade);
+	DOREPLIFETIME(APlayerCharacter, m_UnitTypeThatIsBeingMade);
+	DOREPLIFETIME(APlayerCharacter, m_UnitThatIsBeingMade);
+}

@@ -35,43 +35,49 @@
 
 AInGameController::AInGameController()
 {
-    m_AudioComponent = CreateDefaultSubobject<UAudioComponent>("Audio Component");
+	m_AudioComponent = CreateDefaultSubobject<UAudioComponent>("Audio Component");
 }
 
 void AInGameController::PlayerTick(float DeltaTime)
 {
-    Super::PlayerTick(DeltaTime);
+	Super::PlayerTick(DeltaTime);
 }
 
 void AInGameController::SetupInputComponent()
 {
-    Super::SetupInputComponent();
+	Super::SetupInputComponent();
 
-    InputComponent->BindAxis("MoveForward", this, &AInGameController::MoveUp);
-    InputComponent->BindAxis("MoveRight", this, &AInGameController::MoveRight);
-    InputComponent->BindAxis("ScrollIn", this, &AInGameController::ScrollIn);
-
-    InputComponent->BindAction("Select", IE_Pressed, this, &AInGameController::Select);
-    InputComponent->BindAction("Deselect", IE_Released, this, &AInGameController::Deselect);
+	InputComponent->BindAxis("MoveForward", this, &AInGameController::MoveUp);
+	InputComponent->BindAxis("MoveRight", this, &AInGameController::MoveRight);
+	InputComponent->BindAxis("ScrollIn", this, &AInGameController::ScrollIn);
+	InputComponent->BindAxis("MiniMapZoom", this, &AInGameController::MiniMapZoom);
+	InputComponent->BindAction("Select", IE_Pressed, this, &AInGameController::Select);
+	InputComponent->BindAction("Deselect", IE_Released, this, &AInGameController::Deselect);
 	InputComponent->BindAction("SelectMultiple", IE_Pressed, this, &AInGameController::SelectMultiple);
 }
 
 void AInGameController::MoveRight(float value)
 {
-    APlayerCharacter* const MyPawn = Cast<APlayerCharacter>(GetPawn());
-    if (MyPawn && value != 0.0f) MyPawn->MoveRight(value);
+	APlayerCharacter* const MyPawn = Cast<APlayerCharacter>(GetPawn());
+	if (MyPawn && value != 0.0f) MyPawn->MoveRight(value);
 }
 
 void AInGameController::MoveUp(float value)
 {
-    APlayerCharacter* const MyPawn = Cast<APlayerCharacter>(GetPawn());
-    if (MyPawn) MyPawn->MoveUp(value);
+	APlayerCharacter* const MyPawn = Cast<APlayerCharacter>(GetPawn());
+	if (MyPawn) MyPawn->MoveUp(value);
 }
 
 void AInGameController::ScrollIn(float value)
 {
-    APlayerCharacter* const MyPawn = Cast<APlayerCharacter>(GetPawn());
-    if (MyPawn && value != 0.0f) MyPawn->ScrollIn(value);
+	APlayerCharacter* const MyPawn = Cast<APlayerCharacter>(GetPawn());
+	if (MyPawn && value != 0.0f) MyPawn->ScrollIn(value);
+}
+
+void AInGameController::MiniMapZoom(float value)
+{
+	APlayerCharacter* const MyPawn = Cast<APlayerCharacter>(GetPawn());
+	if (MyPawn && value != 0.0f) MyPawn->MiniMapZoom(value);
 }
 
 void AInGameController::Select()
@@ -133,65 +139,63 @@ void AInGameController::Select()
 			m_SelectedUnits[0]->SayAcknowledgments();
 			return;
 		}
-		return;
 	}
 #pragma endregion Selecting and Moving Units
 
 #pragma region Placing Buidlings
-    if (player)
-    {
-        // If Player is selecting place for building
-        if (player->IsSelectingLocation())
-        {
+	if (player)
+	{
+		// If Player is selecting place for building
+		if (player->IsSelectingLocation())
+		{
 			// Get the ID of the building being made
-            BuildingID ID = player->GetBuildingBeingMadeByID();
+			BuildingID ID = player->GetBuildingBeingMadeByID();
 
-			// Reset construction data
-            player->ResetBuildingProduction();
+
 
 			// Is this the only building of this type?
-            if (player->DoWeUnlockNewTech(ID))
-            {
+			if (player->DoWeUnlockNewTech(ID))
+			{
 				// Play "New construction options"
-                m_AudioComponent->SetSound(m_NewConstructionOptions);
-                m_AudioComponent->Play();
-            }
+				m_AudioComponent->SetSound(m_NewConstructionOptions);
+				m_AudioComponent->Play();
+			}
 
-            FHitResult PlaceBuildingHit;
+			FHitResult PlaceBuildingHit;
 
 			// Send a raycast from the screen to the ground. If the raycast was successful
-            if (GetHitResultUnderCursorByChannel(ETraceTypeQuery::TraceTypeQuery1, true, PlaceBuildingHit))
-            {
+			if (GetHitResultUnderCursorByChannel(ETraceTypeQuery::TraceTypeQuery1, true, PlaceBuildingHit))
+			{
 				// Setup spawn transform and spawn parameters
-                FTransform SpawnTransform;
-                SpawnTransform.SetLocation(PlaceBuildingHit.ImpactPoint);
-
-                FActorSpawnParameters SpawnParams;
-                SpawnParams.Owner = player;
-                SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+				
 
 				// Create the building based on the ID, spawnTransform, and SpawnParams
-                auto building = SpawnBuildingFromID(ID, SpawnTransform, SpawnParams);
+				//auto building = SpawnBuildingFromID(ID, SpawnTransform, SpawnParams);
 
 				// If the spawn was successful, add it to the players building array.
 				// Also change the players power based on the made building.
-				if (building)
-				{
-					auto prodbuilding = Cast<AProductionBuilding>(building);
-					if (prodbuilding)
-					{
-						if (player->DoWeUnlockNewTech(ID))
-						{
-							prodbuilding->SetPrimaryBuilding(true);
-						}
-					}
+				//if (building)
+				//{
+					//auto prodbuilding = Cast<AProductionBuilding>(building);
+					//if (prodbuilding)
+					//{
+						//if (player->DoWeUnlockNewTech(ID))
+						//{
+							//prodbuilding->SetPrimaryBuilding(true);
+						//}
+					//}
 
-					building->m_OwningCharacter = player;	
+					//building->m_OwningCharacter = player;
 
-					player->m_PlayerBuildings.Add(building);
-					player->AddToPlayPower(building->GetPowerValue());					
+					//player->m_PlayerBuildings.Add(building);
+					//player->AddToPlayPower(building->GetPowerValue());
+					SpawnBuildingFromID(PlaceBuildingHit.ImpactPoint);
+
+					// Reset construction data
+					player->ResetBuildingProduction();
+					
 				}
-                
+
 				// Search through the players building array for yards to play 
 				// their construction animation.
 				for (int i = 0; i < player->m_PlayerBuildings.Num() - 1; i++)
@@ -201,11 +205,27 @@ void AInGameController::Select()
 						Cast<AConstructionYard>(player->m_PlayerBuildings[i])->m_MakeBuilding = true;
 					}
 				}
-            }
-        }
-		return;
-    }
+			}
+		}
+	
 #pragma endregion Placing Buildings
+
+#pragma region Selecting superweapon target
+	if (player->IsSelectingLocationForNuke())
+	{
+		if (GetHitResultUnderCursorByChannel(ETraceTypeQuery::TraceTypeQuery1, true, SelectingUnitHit) && !player->IsSelectingLocation())
+		{
+			auto temple = Cast<ASuperweapon>(UHelperFunctions::GetBuildingFromPlayerArsenal(BuildingID::VE_Temple, player->m_PlayerBuildings));
+			player->m_TargetLocationForSuperweapon = SelectingUnitHit.ImpactPoint;
+			if (temple)
+			{
+				temple->LaunchWeapon();
+				player->SetIsSelectingLocationForNuke(false);
+				return;
+			}
+		}
+	}
+#pragma endregion
 }
 
 void AInGameController::SelectMultiple()
@@ -232,76 +252,207 @@ void AInGameController::SelectMultiple()
 
 void AInGameController::Deselect()
 {
-    for (ALivingUnit* obj : m_SelectedUnits)
-    {
-        obj->SetSelected(false);
+	for (ALivingUnit* obj : m_SelectedUnits)
+	{
+		obj->SetSelected(false);
 		obj->m_LivingUnitCollider->bHiddenInGame = true;
-    }
+	}
 
-    m_SelectedUnits.RemoveAt(0, m_SelectedUnits.Num(), true);
+	m_SelectedUnits.RemoveAt(0, m_SelectedUnits.Num(), true);
 	APlayerCharacter* player = Cast<APlayerCharacter>(GetPawn());
 	if (player)
 		player->SetUnitsSelected(false);
 }
 
-ABuilding* AInGameController::SpawnBuildingFromID(BuildingID ID, FTransform spawnTransform, FActorSpawnParameters SpawnParams)
+void AInGameController::SpawnBuildingFromID(FVector TargetLocation)
 {
-    APlayerCharacter* player = Cast<APlayerCharacter>(GetPawn());
+	
 
-    if (player)
-    {
-        switch (ID)
-        {
-        case BuildingID::VE_NA:
-            break;
-        case BuildingID::VE_Yard:
-            return Cast<ABuilding>(GetWorld()->SpawnActor<AConstructionYard>(*player->m_BuildingArsenal.Find("ConstructionYard"),spawnTransform,SpawnParams));
-        case BuildingID::VE_Concrete:
-            break;
-        case BuildingID::VE_Chain:
-            break;
-        case BuildingID::VE_Sand:
-            break;
-        case BuildingID::VE_Powerplant:
-            return Cast<ABuilding>(GetWorld()->SpawnActor<APowerplant>(*player->m_BuildingArsenal.Find("Powerplant"), spawnTransform, SpawnParams));
-        case BuildingID::VE_AdvPower:
-            break;
-        case BuildingID::VE_Repair:
-			return Cast<ABuilding>(GetWorld()->SpawnActor<ARepairFacility>(*player->m_BuildingArsenal.Find("RepairFacility"), spawnTransform, SpawnParams));
-        case BuildingID::VE_Refinery:
-			return Cast<ABuilding>(GetWorld()->SpawnActor<ATiberiumRefinery>(*player->m_BuildingArsenal.Find("TiberiumRefinery"), spawnTransform, SpawnParams));
-        case BuildingID::VE_Comm:
-			return Cast<ABuilding>(GetWorld()->SpawnActor<AComm>(*player->m_BuildingArsenal.Find("Comm"), spawnTransform, SpawnParams));
-        case BuildingID::VE_Silo:
-            break;
-        case BuildingID::VE_Helipad:
-			return Cast<ABuilding>(GetWorld()->SpawnActor<AHelipad>(*player->m_BuildingArsenal.Find("Helipad"), spawnTransform, SpawnParams));
-        case BuildingID::VE_AdvComm:
-            break;
-        case BuildingID::VE_AdvGuard:
-            break;
-        case BuildingID::VE_Weapon:
-            break;
-        case BuildingID::VE_Barracks:
-            break;
-        case BuildingID::VE_Guard:
-            break;
-        case BuildingID::VE_Hand:
-			return Cast<ABuilding>(GetWorld()->SpawnActor<AHandOfNod>(*player->m_BuildingArsenal.Find("HandOfNod"), spawnTransform, SpawnParams));
-        case BuildingID::VE_SAM:
-			return Cast<ABuilding>(GetWorld()->SpawnActor<ASAM>(*player->m_BuildingArsenal.Find("SAM"), spawnTransform, SpawnParams));
-        case BuildingID::VE_Turret:
-			return Cast<ABuilding>(GetWorld()->SpawnActor<ATurret>(*player->m_BuildingArsenal.Find("Turret"), spawnTransform, SpawnParams));
-        case BuildingID::VE_Airfield:
-			return Cast<ABuilding>(GetWorld()->SpawnActor<AAirfield>(*player->m_BuildingArsenal.Find("Airfield"), spawnTransform, SpawnParams));
-        case BuildingID::VE_Obelisk:
-			return Cast<ABuilding>(GetWorld()->SpawnActor<AObelisk>(*player->m_BuildingArsenal.Find("Obelisk"), spawnTransform, SpawnParams));
-        case BuildingID::VE_Temple:
-			return Cast<ABuilding>(GetWorld()->SpawnActor<ATempleOfNod>(*player->m_BuildingArsenal.Find("Temple"), spawnTransform, SpawnParams));
-        default:
-            break;
-        }
-    }
-    return nullptr;
+	//*
+	APlayerCharacter* player = Cast<APlayerCharacter>(GetPawn());
+	BuildingID ID = player->GetBuildingBeingMadeByID();
+	FTransform SpawnTransform;
+	SpawnTransform.SetLocation(TargetLocation);
 
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.Owner = player;
+	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+
+	if (player)
+	{
+		ABuilding* building = nullptr;
+		switch (ID)
+		{
+		case BuildingID::VE_NA:
+			break;
+		case BuildingID::VE_Yard:
+			building = Cast<ABuilding>(GetWorld()->SpawnActor<AConstructionYard>(*player->m_BuildingArsenal.Find("ConstructionYard"), SpawnTransform, SpawnParams));
+		case BuildingID::VE_Concrete:
+			break;
+		case BuildingID::VE_Chain:
+			break;
+		case BuildingID::VE_Sand:
+			break;
+		case BuildingID::VE_Powerplant:
+			building = Cast<ABuilding>(GetWorld()->SpawnActor<APowerplant>(*player->m_BuildingArsenal.Find("Powerplant"), SpawnTransform, SpawnParams));
+			break;
+		case BuildingID::VE_AdvPower:
+			break;
+		case BuildingID::VE_Repair:
+			building = Cast<ABuilding>(GetWorld()->SpawnActor<ARepairFacility>(*player->m_BuildingArsenal.Find("RepairFacility"), SpawnTransform, SpawnParams));
+			break;
+		case BuildingID::VE_Refinery:
+			building = Cast<ABuilding>(GetWorld()->SpawnActor<ATiberiumRefinery>(*player->m_BuildingArsenal.Find("TiberiumRefinery"), SpawnTransform, SpawnParams));
+			break;
+		case BuildingID::VE_Comm:
+			building = Cast<ABuilding>(GetWorld()->SpawnActor<AComm>(*player->m_BuildingArsenal.Find("Comm"), SpawnTransform, SpawnParams));
+			break;
+		case BuildingID::VE_Silo:
+			break;
+		case BuildingID::VE_Helipad:
+			building = Cast<ABuilding>(GetWorld()->SpawnActor<AHelipad>(*player->m_BuildingArsenal.Find("Helipad"), SpawnTransform, SpawnParams));
+			break;
+		case BuildingID::VE_AdvComm:
+			break;
+		case BuildingID::VE_AdvGuard:
+			break;
+		case BuildingID::VE_Weapon:
+			break;
+		case BuildingID::VE_Barracks:
+			break;
+		case BuildingID::VE_Guard:
+			break;
+		case BuildingID::VE_Hand:
+			building = Cast<ABuilding>(GetWorld()->SpawnActor<AHandOfNod>(*player->m_BuildingArsenal.Find("HandOfNod"), SpawnTransform, SpawnParams));
+			break;
+		case BuildingID::VE_SAM:
+			building = Cast<ABuilding>(GetWorld()->SpawnActor<ASAM>(*player->m_BuildingArsenal.Find("SAM"), SpawnTransform, SpawnParams));
+			break;
+		case BuildingID::VE_Turret:
+			building = Cast<ABuilding>(GetWorld()->SpawnActor<ATurret>(*player->m_BuildingArsenal.Find("Turret"), SpawnTransform, SpawnParams));
+			break;
+		case BuildingID::VE_Airfield:
+			building = Cast<ABuilding>(GetWorld()->SpawnActor<AAirfield>(*player->m_BuildingArsenal.Find("Airfield"), SpawnTransform, SpawnParams));
+			break;
+		case BuildingID::VE_Obelisk:
+			building = Cast<ABuilding>(GetWorld()->SpawnActor<AObelisk>(*player->m_BuildingArsenal.Find("Obelisk"), SpawnTransform, SpawnParams));
+			break;
+		case BuildingID::VE_Temple:
+			building = Cast<ABuilding>(GetWorld()->SpawnActor<ATempleOfNod>(*player->m_BuildingArsenal.Find("Temple"), SpawnTransform, SpawnParams));
+			break;
+		default:
+			break;
+		}
+
+		player->AddToPlayPower(building->GetPowerValue());
+
+
+		auto prodbuilding = Cast<AProductionBuilding>(building);
+		if (prodbuilding)
+		{
+			if (player->DoWeUnlockNewTech(ID))
+			{
+				prodbuilding->SetPrimaryBuilding(true);
+			}
+		}
+
+		building->m_OwningCharacter = player;
+		player->m_PlayerBuildings.Add(building);
+	}
+	/**/
+	//Server_SpawnBuildingFromID(TargetLocation);
+}
+
+void AInGameController::Server_SpawnBuildingFromID_Implementation(FVector TargetLocation)
+{
+	APlayerCharacter* player = Cast<APlayerCharacter>(GetPawn());
+	BuildingID ID = player->GetBuildingBeingMadeByID();
+	FTransform SpawnTransform;
+	SpawnTransform.SetLocation(TargetLocation);
+
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.Owner = player;
+	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+
+	if (player)
+	{
+		ABuilding* building = nullptr;
+		switch (ID)
+		{
+		case BuildingID::VE_NA:
+			break;
+		case BuildingID::VE_Yard:
+			player->m_PlayerBuildings.Add(Cast<ABuilding>(GetWorld()->SpawnActor<AConstructionYard>(*player->m_BuildingArsenal.Find("ConstructionYard"), SpawnTransform, SpawnParams)));
+		case BuildingID::VE_Concrete:
+			break;
+		case BuildingID::VE_Chain:
+			break;
+		case BuildingID::VE_Sand:
+			break;
+		case BuildingID::VE_Powerplant:
+			building = Cast<ABuilding>(GetWorld()->SpawnActor<APowerplant>(*player->m_BuildingArsenal.Find("Powerplant"), SpawnTransform, SpawnParams));
+			break;
+		case BuildingID::VE_AdvPower:
+			break;
+		case BuildingID::VE_Repair:
+			player->m_PlayerBuildings.Add(Cast<ABuilding>(GetWorld()->SpawnActor<ARepairFacility>(*player->m_BuildingArsenal.Find("RepairFacility"), SpawnTransform, SpawnParams)));
+			break;
+		case BuildingID::VE_Refinery:
+			player->m_PlayerBuildings.Add(Cast<ABuilding>(GetWorld()->SpawnActor<ATiberiumRefinery>(*player->m_BuildingArsenal.Find("TiberiumRefinery"), SpawnTransform, SpawnParams)));
+			break;
+		case BuildingID::VE_Comm:
+			player->m_PlayerBuildings.Add(Cast<ABuilding>(GetWorld()->SpawnActor<AComm>(*player->m_BuildingArsenal.Find("Comm"), SpawnTransform, SpawnParams)));
+			break;
+		case BuildingID::VE_Silo:
+			break;
+		case BuildingID::VE_Helipad:
+			player->m_PlayerBuildings.Add(Cast<ABuilding>(GetWorld()->SpawnActor<AHelipad>(*player->m_BuildingArsenal.Find("Helipad"), SpawnTransform, SpawnParams)));
+			break;
+		case BuildingID::VE_AdvComm:
+			break;
+		case BuildingID::VE_AdvGuard:
+			break;
+		case BuildingID::VE_Weapon:
+			break;
+		case BuildingID::VE_Barracks:
+			break;
+		case BuildingID::VE_Guard:
+			break;
+		case BuildingID::VE_Hand:
+			player->m_PlayerBuildings.Add(Cast<ABuilding>(GetWorld()->SpawnActor<AHandOfNod>(*player->m_BuildingArsenal.Find("HandOfNod"), SpawnTransform, SpawnParams)));
+			break;
+		case BuildingID::VE_SAM:
+			player->m_PlayerBuildings.Add(Cast<ABuilding>(GetWorld()->SpawnActor<ASAM>(*player->m_BuildingArsenal.Find("SAM"), SpawnTransform, SpawnParams)));
+			break;
+		case BuildingID::VE_Turret:
+			player->m_PlayerBuildings.Add(Cast<ABuilding>(GetWorld()->SpawnActor<ATurret>(*player->m_BuildingArsenal.Find("Turret"), SpawnTransform, SpawnParams)));
+			break;
+		case BuildingID::VE_Airfield:
+			player->m_PlayerBuildings.Add(Cast<ABuilding>(GetWorld()->SpawnActor<AAirfield>(*player->m_BuildingArsenal.Find("Airfield"), SpawnTransform, SpawnParams)));
+			break;
+		case BuildingID::VE_Obelisk:
+			player->m_PlayerBuildings.Add(Cast<ABuilding>(GetWorld()->SpawnActor<AObelisk>(*player->m_BuildingArsenal.Find("Obelisk"), SpawnTransform, SpawnParams)));
+			break;
+		case BuildingID::VE_Temple:
+			player->m_PlayerBuildings.Add(Cast<ABuilding>(GetWorld()->SpawnActor<ATempleOfNod>(*player->m_BuildingArsenal.Find("Temple"), SpawnTransform, SpawnParams)));
+			break;
+		default:
+			break;
+		}
+
+		player->AddToPlayPower(building->GetPowerValue());
+
+
+		auto prodbuilding = Cast<AProductionBuilding>(building);
+		if (prodbuilding)
+		{
+			if (player->DoWeUnlockNewTech(ID))
+			{
+				prodbuilding->SetPrimaryBuilding(true);
+			}
+		}
+
+		building->m_OwningCharacter = player;
+		player->m_PlayerBuildings.Add(building);
+	}
 }

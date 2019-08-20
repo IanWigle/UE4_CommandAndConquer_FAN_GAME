@@ -38,6 +38,8 @@ protected:
         bool m_SelectingLocation = false;
     UPROPERTY(VisibleAnywhere, Category = "Building Logic")
         bool m_IsBuildingMakingPaused = false;
+	UPROPERTY(VisibleAnywhere, Category = "Superweapons")
+		bool m_IsSelectingNukeTarget = false;
 
 
 	UPROPERTY(VisibleAnywhere, Category = "Unit Logic")
@@ -47,9 +49,12 @@ protected:
 
     bool m_RadarEnabled = false;
 
-    BuildingID m_BuildingThatIsBeingMade = BuildingID::VE_NA;
-	LivingUnitID m_UnitThatIsBeingMade = LivingUnitID::VE_NA;
-	UnitType m_UnitTypeThatIsBeingMade = UnitType::VE_NoType;
+	UPROPERTY(Replicated)
+		BuildingID m_BuildingThatIsBeingMade = BuildingID::VE_NA;
+	UPROPERTY(Replicated)
+		LivingUnitID m_UnitThatIsBeingMade = LivingUnitID::VE_NA;
+	UPROPERTY(Replicated)
+		UnitType m_UnitTypeThatIsBeingMade = UnitType::VE_NoType;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Credit Data")
         int m_Credits;
@@ -140,6 +145,8 @@ public:
         float m_CameraMovementSpeed;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera Speeds")
         float m_CameraZoomSpeed;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Radar")
+		float m_RadarZoomSpeed;
     UFUNCTION(BlueprintCallable, Category = "Radar")
         void ToggleRadar(bool state) { m_RadarEnabled = state; }
     UFUNCTION(BlueprintCallable, Category = "Radar")
@@ -148,6 +155,7 @@ public:
     void MoveRight(float value);
     void MoveUp(float value);
     void ScrollIn(float value);
+	void MiniMapZoom(float value);
 #pragma endregion Camera and Radar
 
 #pragma region Debug
@@ -169,7 +177,7 @@ public:
 		int GetPlayerGeneratedPower() { return m_PlayerPowerGenerated; }
 	UFUNCTION(BlueprintCallable)
 		int GetPlayerUsablePower() { return m_UsablePower; }
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Exec)
 		void AddToPlayPower(int power);
 #pragma endregion Player Power
    
@@ -217,7 +225,7 @@ public:
 #pragma region Misc
     UFUNCTION(BlueprintCallable)
         int GetUserCredits() { return m_Credits; }
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Exec)
 		bool IsPlayingInEditor()
 	{
 		return GetWorld()->IsPlayInEditor();
@@ -233,9 +241,8 @@ public:
 		TMap<FString, class USoundWave*> m_EVASoundsMap;
 #pragma endregion EVA Voices
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		UAudioComponent* m_EVAVoiceComponent;
-		
 
 #pragma endregion Audio
 
@@ -247,4 +254,14 @@ public:
 
 	UFUNCTION(BlueprintPure, BlueprintCallable)
 		PlayerFaction GetPlayerFaction() { return m_PlayerFaction; }
+
+	UFUNCTION(BlueprintPure, BlueprintCallable)
+		bool IsSelectingLocationForNuke() { return m_IsSelectingNukeTarget; }
+
+	UFUNCTION(BlueprintCallable)
+		void SetIsSelectingLocationForNuke(bool state) { m_IsSelectingNukeTarget = state; }
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+		FVector m_TargetLocationForSuperweapon;
+
 };

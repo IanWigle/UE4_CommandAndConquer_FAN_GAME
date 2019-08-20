@@ -22,7 +22,7 @@ protected:
 		bool m_IsWeaponReady;
 public:
 	UFUNCTION(BlueprintCallable, Category = "Superweapon")
-		virtual void LaunchWeapon() {};
+		virtual void LaunchWeapon();
 
 	UFUNCTION(BlueprintCallable, Category = "Superweapon")
 		void PauseCountdown();
