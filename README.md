@@ -60,8 +60,6 @@ TODO (Models)
 			All infantry
 			All Aircraft
 			
-			Temple
-			
 	GDI:
 	
 			EVERYTHING
