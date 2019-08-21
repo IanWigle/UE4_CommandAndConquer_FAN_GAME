@@ -45,12 +45,9 @@ TODO (Code In order of priority):
 TODO (Models)
 
 	GLOBAL:
-	
-			Silo
 			Sandbags
 			ChainLink
 			Concrete Wall
-			Advanced Power
 			Finish Yard
 
 	NOD:

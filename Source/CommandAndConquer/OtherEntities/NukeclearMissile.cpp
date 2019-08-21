@@ -67,7 +67,7 @@ void ANukeclearMissile::OnComponentHit(UPrimitiveComponent* OverlappedComponent,
 		player->m_TargetLocationForSuperweapon = FVector(0.0f);
 	}
 
-	this->Destroy();
+	//this->Destroy();
 }
 
 void ANukeclearMissile::ComeDown()
@@ -81,6 +81,12 @@ void ANukeclearMissile::ComeDown()
 	{
 		origin.X = player->m_TargetLocationForSuperweapon.X;
 		origin.Y = player->m_TargetLocationForSuperweapon.Y;
+
+		SetActorLocation(origin);
+		
+		FRotator originRot = GetActorRotation();
+		originRot.Pitch = -180;
+		SetActorRotation(originRot);
 
 		m_Direction = NukeMissileDirection::VE_DOWN;
 		m_ExplosionRadiusSphere->SetGenerateOverlapEvents(true);

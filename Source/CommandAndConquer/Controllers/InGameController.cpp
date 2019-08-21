@@ -25,6 +25,8 @@
 #include "Units/Buildings/Global/RepairFacility.h"
 #include "Units/Buildings/Global/Helipad.h"
 #include "Units/Buildings/Global/Comm.h"
+#include "Units/Buildings/Global/AdvancedPowerPlant.h"
+#include "Units/Buildings/Global/Silo.h"
 #include "Units/Buildings/NOD/Airfield.h"
 #include "Units/Buildings/NOD/HandOfNod.h"
 #include "Units/Buildings/NOD/Turret.h"
@@ -166,29 +168,6 @@ void AInGameController::Select()
 			// Send a raycast from the screen to the ground. If the raycast was successful
 			if (GetHitResultUnderCursorByChannel(ETraceTypeQuery::TraceTypeQuery1, true, PlaceBuildingHit))
 			{
-				// Setup spawn transform and spawn parameters
-				
-
-				// Create the building based on the ID, spawnTransform, and SpawnParams
-				//auto building = SpawnBuildingFromID(ID, SpawnTransform, SpawnParams);
-
-				// If the spawn was successful, add it to the players building array.
-				// Also change the players power based on the made building.
-				//if (building)
-				//{
-					//auto prodbuilding = Cast<AProductionBuilding>(building);
-					//if (prodbuilding)
-					//{
-						//if (player->DoWeUnlockNewTech(ID))
-						//{
-							//prodbuilding->SetPrimaryBuilding(true);
-						//}
-					//}
-
-					//building->m_OwningCharacter = player;
-
-					//player->m_PlayerBuildings.Add(building);
-					//player->AddToPlayPower(building->GetPowerValue());
 					SpawnBuildingFromID(PlaceBuildingHit.ImpactPoint);
 
 					// Reset construction data
@@ -297,6 +276,7 @@ void AInGameController::SpawnBuildingFromID(FVector TargetLocation)
 			building = Cast<ABuilding>(GetWorld()->SpawnActor<APowerplant>(*player->m_BuildingArsenal.Find("Powerplant"), SpawnTransform, SpawnParams));
 			break;
 		case BuildingID::VE_AdvPower:
+			building = Cast<ABuilding>(GetWorld()->SpawnActor<AAdvancedPowerPlant>(*player->m_BuildingArsenal.Find("AdvancedPowerplant"), SpawnTransform, SpawnParams));
 			break;
 		case BuildingID::VE_Repair:
 			building = Cast<ABuilding>(GetWorld()->SpawnActor<ARepairFacility>(*player->m_BuildingArsenal.Find("RepairFacility"), SpawnTransform, SpawnParams));
@@ -308,6 +288,7 @@ void AInGameController::SpawnBuildingFromID(FVector TargetLocation)
 			building = Cast<ABuilding>(GetWorld()->SpawnActor<AComm>(*player->m_BuildingArsenal.Find("Comm"), SpawnTransform, SpawnParams));
 			break;
 		case BuildingID::VE_Silo:
+			building = Cast<ABuilding>(GetWorld()->SpawnActor<ASilo>(*player->m_BuildingArsenal.Find("Silo"), SpawnTransform, SpawnParams));
 			break;
 		case BuildingID::VE_Helipad:
 			building = Cast<ABuilding>(GetWorld()->SpawnActor<AHelipad>(*player->m_BuildingArsenal.Find("Helipad"), SpawnTransform, SpawnParams));
