@@ -61,7 +61,7 @@ void AHarvester::FindClosestCrystal()
 
 		if (closestSpawner)
 		{
-			float lowestDistance = 0;
+			lowestDistance = 0;
 			lowestDistance = FVector::Distance(GetActorLocation(), closestSpawner->m_Crystals[0]->GetActorLocation());
 			int closestCrystalIndex = 0;
 			for (int i = 1; i < closestSpawner->m_Crystals.Num(); i++)

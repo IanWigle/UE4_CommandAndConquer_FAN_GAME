@@ -8,6 +8,32 @@
 #include "Units/Superweapon.h"
 #include "Engine/World.h"
 #include "PlayerCharacter.h"
+#include "Units/Unit.h"
+
+void ANukeclearMissile::Explode()
+{
+	m_DetonationSound->Play();
+	APlayerCharacter* player = Cast<APlayerCharacter>(GetOwner()->GetOwner());
+	if (player)
+	{
+		player->m_TargetLocationForSuperweapon = FVector(0.0f);
+	}
+	m_Direction = NukeMissileDirection::VE_NA;
+
+	TArray<AActor*> ActorsInNuke;
+	GetOverlappingActors(ActorsInNuke);
+
+	for (AActor* actor : ActorsInNuke)
+	{
+		auto Unit = Cast<AUnit>(actor);
+		if (Unit)
+		{
+			Unit->DealDamage(Unit->GetMaxHealth());
+		}
+	}
+
+	this->Destroy();
+}
 
 ANukeclearMissile::ANukeclearMissile()
 {
@@ -15,7 +41,7 @@ ANukeclearMissile::ANukeclearMissile()
 	m_ExplosionRadiusSphere->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	m_ExplosionRadiusSphere->SetGenerateOverlapEvents(false);
 	m_ExplosionRadiusSphere->SetupAttachment(RootComponent);
-	//GetStaticMeshComponent
+	m_ExplosionRadiusSphere->SetSphereRadius(m_ExplosionRadius);
 	m_ExplosionRadiusSphere->OnComponentBeginOverlap.AddDynamic(this, &ANukeclearMissile::OnComponentHit);
 	
 	//GetStaticMeshComponent()->OnComponentHit.AddDynamic(this, &ANukeclearMissile::OnComponentHit)
@@ -35,12 +61,12 @@ void ANukeclearMissile::Tick(float DeltaSeconds)
 		FVector origin = GetActorLocation();
 		origin.Z = origin.Z + (m_MissileSpeedUpwards * DeltaSeconds);
 		SetActorLocation(origin);
-		if (GetActorLocation().Z >= 1500.0f)
+		if (GetActorLocation().Z >= m_MaxHeight)
 		{
 			auto temple = Cast<ASuperweapon>(GetOwner());
 			if (temple)
 			{
-				GetStaticMeshComponent()->bHiddenInGame = true;
+				//GetStaticMeshComponent()->bHiddenInGame = true;
 				GetWorld()->GetTimerManager().SetTimer(temple->m_OffScreenDelayHandle, this, &ANukeclearMissile::ComeDown,
 					temple->m_OffScreenDelay, false);
 				m_Direction = NukeMissileDirection::VE_NA;
@@ -54,18 +80,19 @@ void ANukeclearMissile::Tick(float DeltaSeconds)
 		FVector origin = GetActorLocation();
 		origin.Z = origin.Z - (m_MissileSpeedDownwards * DeltaSeconds);
 		SetActorLocation(origin);
+
+		if (GetActorLocation().Z <= 0.0f)
+		{
+			Explode();
+		}
 	}
 	}
 }
 
 void ANukeclearMissile::OnComponentHit(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult)
 {
-	m_DetonationSound->Play();
-	APlayerCharacter* player = Cast<APlayerCharacter>(GetOwner()->GetOwner());
-	if (player)
-	{
-		player->m_TargetLocationForSuperweapon = FVector(0.0f);
-	}
+	
+	
 
 	//this->Destroy();
 }

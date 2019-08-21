@@ -92,11 +92,11 @@ public:
 #pragma region Buildings
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player Arsenal")
-        TArray<class ABuilding*> m_PlayerBuildings;
+        TArray<class AUnit*> m_PlayerBuildings;
 
 #pragma region Building Templates
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Player Arsenal")
-        TMap<FString, TSubclassOf<ABuilding>> m_BuildingArsenal;
+        TMap<FString, TSubclassOf<class ABuilding>> m_BuildingArsenal;
 #pragma endregion Building Templates    
 
 #pragma region Building Functions

@@ -179,7 +179,7 @@ void AInGameController::Select()
 				// their construction animation.
 				for (int i = 0; i < player->m_PlayerBuildings.Num() - 1; i++)
 				{
-					if (player->m_PlayerBuildings[i]->GetBuildingID() == BuildingID::VE_Yard)
+					if (Cast<ABuilding>(player->m_PlayerBuildings[i])->GetBuildingID() == BuildingID::VE_Yard)
 					{
 						Cast<AConstructionYard>(player->m_PlayerBuildings[i])->m_MakeBuilding = true;
 					}

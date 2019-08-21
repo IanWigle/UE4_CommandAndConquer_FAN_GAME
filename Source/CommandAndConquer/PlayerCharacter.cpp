@@ -135,13 +135,13 @@ void APlayerCharacter::Tick(float DeltaTime)
 	int tempMaxCredits = 0;
 	for (int i = 0; i < m_PlayerBuildings.Num(); i++)
 	{
-		if (m_PlayerBuildings[i]->GetBuildingID() == BuildingID::VE_Yard)
+		if (Cast<ABuilding>(m_PlayerBuildings[i])->GetBuildingID() == BuildingID::VE_Yard)
 			tempMaxCredits += 1000;
-		else if (m_PlayerBuildings[i]->GetBuildingID() == BuildingID::VE_Refinery)
+		else if (Cast<ABuilding>(m_PlayerBuildings[i])->GetBuildingID() == BuildingID::VE_Refinery)
 			tempMaxCredits += 1000;
-		else if (m_PlayerBuildings[i]->GetBuildingID() == BuildingID::VE_Silo)
+		else if (Cast<ABuilding>(m_PlayerBuildings[i])->GetBuildingID() == BuildingID::VE_Silo)
 			tempMaxCredits += 1500;
-		else if (m_PlayerBuildings[i]->GetBuildingID() == BuildingID::VE_Yard)
+		else if (Cast<ABuilding>(m_PlayerBuildings[i])->GetBuildingID() == BuildingID::VE_Yard)
 			tempMaxCredits += 3000;
 	}
 	m_MaxCredits = tempMaxCredits;
@@ -216,7 +216,7 @@ ALivingUnit * APlayerCharacter::SpawnUnitFromID(LivingUnitID ID)
 	{
 		if (m_UnitTypeThatIsBeingMade == UnitType::VE_Infantry)
 		{
-			if (m_PlayerBuildings[i]->GetBuildingID() == BuildingID::VE_Barracks || m_PlayerBuildings[i]->GetBuildingID() == BuildingID::VE_Hand)
+			if (Cast<ABuilding>(m_PlayerBuildings[i])->GetBuildingID() == BuildingID::VE_Barracks || Cast<ABuilding>(m_PlayerBuildings[i])->GetBuildingID() == BuildingID::VE_Hand)
 			{
 				auto prodbuilding = Cast<AProductionBuilding>(m_PlayerBuildings[i]);
 
@@ -263,7 +263,7 @@ ALivingUnit * APlayerCharacter::SpawnUnitFromID(LivingUnitID ID)
 		}
 		else if (m_UnitTypeThatIsBeingMade == UnitType::VE_Tank)
 		{
-			if (m_PlayerBuildings[i]->GetBuildingID() == BuildingID::VE_Airfield || m_PlayerBuildings[i]->GetBuildingID() == BuildingID::VE_Weapon)
+			if (Cast<ABuilding>(m_PlayerBuildings[i])->GetBuildingID() == BuildingID::VE_Airfield || Cast<ABuilding>(m_PlayerBuildings[i])->GetBuildingID() == BuildingID::VE_Weapon)
 			{
 				auto prodbuilding = Cast<AProductionBuilding>(m_PlayerBuildings[i]);
 
@@ -363,7 +363,7 @@ bool APlayerCharacter::DoWeUnlockNewTech(BuildingID ID)
 {
 	for (int i = 0; i < m_PlayerBuildings.Num(); i++)
 	{
-		if (m_PlayerBuildings[i]->GetBuildingID() == ID)
+		if (Cast<ABuilding>(m_PlayerBuildings[i])->GetBuildingID() == ID)
 		{
 			return false;
 		}

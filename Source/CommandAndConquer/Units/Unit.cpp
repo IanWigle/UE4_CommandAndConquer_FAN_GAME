@@ -76,6 +76,22 @@ void AUnit::SayAcknowledgments(int specificacknowledgment)
     }
 }
 
+void AUnit::DealDamage(float damage)
+{
+	m_Health -= damage;
+	if (m_Health < 0)
+		m_Health = 0;
+
+	auto Player = Cast<APlayerCharacter>(GetOwner());
+
+	if (Player)
+	{
+		Player->m_PlayerBuildings.Remove(this);
+	}
+
+	this->Destroy();
+}
+
 void AUnit::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);

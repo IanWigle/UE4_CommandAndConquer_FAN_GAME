@@ -19,6 +19,8 @@ class COMMANDANDCONQUER_API ANukeclearMissile : public AStaticMeshActor
 protected:
 	UPROPERTY(VisibleAnywhere)
 		NukeMissileDirection m_Direction;
+
+	void Explode();
 	
 public:
 	ANukeclearMissile();
@@ -28,7 +30,7 @@ public:
 	UPROPERTY(EditAnywhere)
 		class UAudioComponent* m_DetonationSound;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Nuke Data")
 		float m_ExplosionRadius;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -45,9 +47,12 @@ public:
 	void ComeDown();
 	void ShootMissile() { m_Direction = NukeMissileDirection::VE_UP; }
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Nuke Data")
 		float m_MissileSpeedUpwards;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Nuke Data")
 		float m_MissileSpeedDownwards;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Nuke Data")
+		float m_MaxHeight = 1500.0f;
 };

@@ -53,6 +53,9 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (EditCondition = "m_HasVoiceLines"), Category = Audio)
         TArray<class USoundBase*> m_AcknowledgmentsVoices;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (EditCondition = "m_HasVoiceLines"), Category = Audio)
+		TArray<class USoundBase*> m_DeathSounds;
+
     UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (EditCondition = "m_HasVoiceLines"), Category = Audio)
         class UAudioComponent* m_AudioComponent;
 
@@ -71,7 +74,7 @@ public:
     UFUNCTION(BlueprintCallable, BlueprintPure)
         FName GetUnitName() { return m_UnitName; }
 
-    UFUNCTION(BlueprintCallable, BlueprintPure)
+    UFUNCTION(BlueprintCallable)
         bool IsSelected() { return m_IsSelected; }
 
     UFUNCTION(BlueprintCallable) 
@@ -86,4 +89,10 @@ public:
         use the value as an index for the array of acknowledgments.*/
     UFUNCTION(BlueprintCallable, Category = "Unit Audio")
         void SayAcknowledgments(int specificacknowledgment = -1);
+
+	UFUNCTION(BlueprintCallable, Category = "Unit Health")
+		void DealDamage(float damage);
+
+	UFUNCTION(BlueprintCallable, Category = "Health")
+		float GetMaxHealth() { return m_MaxHealth; }
 };

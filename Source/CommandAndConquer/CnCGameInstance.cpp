@@ -218,7 +218,7 @@ void UCnCGameInstance::OnFindSessionsComplete(bool bWasSuccessful)
 					SessionMS.Add(SessionSearch->SearchResults[SearchIdx].PingInMs);
 					SessionCanUseCheats.Add(SessionSearch->SearchResults[SearchIdx].Session.SessionSettings.bAntiCheatProtected);
 					SessionIsLAN.Add(SessionSearch->SearchResults[SearchIdx].Session.SessionSettings.bIsLANMatch);
-					SessionNumConnections.Add(SessionSearch->SearchResults[SearchIdx].Session.SessionSettings.NumPublicConnections);
+					//SessionNumConnections.Add(SessionSearch->SearchResults[SearchIdx].Session.SessionSettings.NumPublicConnections);
 
 					GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, FString::Printf(TEXT("Session Number: %d | Sessionname: %s "), SearchIdx + 1, *(SessionSearch->SearchResults[SearchIdx].Session.OwningUserName)));				}
 			}

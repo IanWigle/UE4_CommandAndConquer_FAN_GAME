@@ -42,22 +42,22 @@ public:
     }
 
     UFUNCTION(BlueprintCallable, Category = "Custom Analytics")
-    static ABuilding* GetBuildingFromPlayerArsenal(BuildingID ID, TArray<ABuilding*> OutActors)
+    static ABuilding* GetBuildingFromPlayerArsenal(BuildingID ID, TArray<AUnit*> OutActors)
     {
         for (int32 i = 0; i < OutActors.Num(); i++)   
         {
-            if (OutActors[i]->GetBuildingID() == ID) return OutActors[i];
+            if (Cast<ABuilding>(OutActors[i])->GetBuildingID() == ID) return Cast<ABuilding>(OutActors[i]);
         }
 
         return nullptr;
     }
 
     UFUNCTION(BlueprintCallable, Category = "Building Analytics")
-    static bool DoesPlayHaveBuilding(BuildingID ID, TArray<ABuilding*> PlayerBuildings)
+    static bool DoesPlayHaveBuilding(BuildingID ID, TArray<AUnit*> PlayerBuildings)
     {
         for (int i = 0; i < PlayerBuildings.Num(); i++)
         {
-            if (PlayerBuildings[i]->GetBuildingID() == ID) return true;
+            if (Cast<ABuilding>(PlayerBuildings[i])->GetBuildingID() == ID) return true;
         }
 
         return false;
