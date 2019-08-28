@@ -48,7 +48,6 @@ TODO (Models)
 			Sandbags
 			ChainLink
 			Concrete Wall
-			Finish Yard
 
 	NOD:
 			Light Tank
