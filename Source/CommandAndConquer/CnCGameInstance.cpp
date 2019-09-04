@@ -15,9 +15,31 @@ UCnCGameInstance::UCnCGameInstance(const FObjectInitializer& ObjectInitializer) 
 	OnJoinSessionCompleteDelegate = FOnJoinSessionCompleteDelegate::CreateUObject(this, &UCnCGameInstance::OnJoinSessionComplete);
 	/** Bind function for DESTROYING a Session */
 	OnDestroySessionCompleteDelegate = FOnDestroySessionCompleteDelegate::CreateUObject(this, &UCnCGameInstance::OnDestroySessionComplete);
+
+	m_PlayerDetails.SetNum(8);
 }
 
 #pragma region Creating Sessions
+
+FLobbyPlayerDetails UCnCGameInstance::GetPlayerDetails(int index)
+{
+	if (m_PlayerDetails.IsValidIndex(index))
+	{
+		return m_PlayerDetails[index];
+	}
+
+	return m_PlayerDetails[0];
+}
+
+void UCnCGameInstance::SetPlayerDetails(int index, FLobbyPlayerDetails playerdetails)
+{
+	if (m_PlayerDetails.IsValidIndex(index))
+	{
+		m_PlayerDetails[index] = playerdetails;
+	}
+}
+
+#pragma region Session Handling
 
 bool UCnCGameInstance::HostLobbySession(TSharedPtr<const FUniqueNetId> UserId, FName SessionName, bool bIsLAN, bool bIsPresence, int32 MaxNumPlayers)
 {
@@ -127,10 +149,6 @@ void UCnCGameInstance::OnStartOnlineGameComplete(FName SessionName, bool bWasSuc
 	}
 }
 
-#pragma endregion
-
-#pragma region Finding Sessions
-
 void UCnCGameInstance::FindSessions(TSharedPtr<const FUniqueNetId> UserId, bool bIsLAN, bool bIsPresence)
 {
 	// Get the OnlineSubsystem we want to work with
@@ -226,10 +244,6 @@ void UCnCGameInstance::OnFindSessionsComplete(bool bWasSuccessful)
 	}
 }
 
-#pragma endregion
-
-#pragma region Joining Sessions
-
 bool UCnCGameInstance::JoinLobbySession(TSharedPtr<const FUniqueNetId> UserId, FName SessionName, const FOnlineSessionSearchResult& SearchResult)
 {
 	// Return bool
@@ -319,10 +333,6 @@ void UCnCGameInstance::OnJoinSessionComplete(FName SessionName, EOnJoinSessionCo
 	}
 }
 
-#pragma endregion
-
-#pragma region Destroying Sessions
-
 void UCnCGameInstance::OnDestroySessionComplete(FName SessionName, bool bWasSuccessful)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, FString::Printf(TEXT("OnDestroySessionComplete %s, %d"), *SessionName.ToString(), bWasSuccessful));
@@ -364,4 +374,4 @@ void UCnCGameInstance::DestroySessionAndLeaveGame()
 	}
 }
 
-#pragma endregion
+#pragma endregion Session Handling

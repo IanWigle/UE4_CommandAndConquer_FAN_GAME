@@ -168,25 +168,25 @@ void AInGameController::Select()
 			// Send a raycast from the screen to the ground. If the raycast was successful
 			if (GetHitResultUnderCursorByChannel(ETraceTypeQuery::TraceTypeQuery1, true, PlaceBuildingHit))
 			{
-					SpawnBuildingFromID(PlaceBuildingHit.ImpactPoint);
+				SpawnBuildingFromID(PlaceBuildingHit.ImpactPoint);
 
-					// Reset construction data
-					player->ResetBuildingProduction();
-					
-				}
+				// Reset construction data
+				player->ResetBuildingProduction();
 
-				// Search through the players building array for yards to play 
-				// their construction animation.
-				for (int i = 0; i < player->m_PlayerBuildings.Num() - 1; i++)
+			}
+
+			// Search through the players building array for yards to play 
+			// their construction animation.
+			for (int i = 0; i < player->m_PlayerBuildings.Num() - 1; i++)
+			{
+				if (Cast<ABuilding>(player->m_PlayerBuildings[i])->GetBuildingID() == BuildingID::VE_Yard)
 				{
-					if (Cast<ABuilding>(player->m_PlayerBuildings[i])->GetBuildingID() == BuildingID::VE_Yard)
-					{
-						Cast<AConstructionYard>(player->m_PlayerBuildings[i])->m_MakeBuilding = true;
-					}
+					Cast<AConstructionYard>(player->m_PlayerBuildings[i])->m_MakeBuilding = true;
 				}
 			}
 		}
-	
+	}
+
 #pragma endregion Placing Buildings
 
 #pragma region Selecting superweapon target
@@ -202,6 +202,20 @@ void AInGameController::Select()
 				player->SetIsSelectingLocationForNuke(false);
 				return;
 			}
+		}
+	}
+#pragma endregion
+
+#pragma region Sell Building
+	if (GetHitResultUnderCursorByChannel(ETraceTypeQuery::TraceTypeQuery1, true, SelectingUnitHit) && player->IsSelling())
+	{
+		auto building = Cast<ABuilding>(SelectingUnitHit.GetActor());
+
+		if (building)
+		{
+			player->AddCredits(building->GetBuildingCost());
+			player->RemoveFromPlayerPower(building->GetPowerValue());
+			building->Die();
 		}
 	}
 #pragma endregion
@@ -240,12 +254,18 @@ void AInGameController::Deselect()
 	m_SelectedUnits.RemoveAt(0, m_SelectedUnits.Num(), true);
 	APlayerCharacter* player = Cast<APlayerCharacter>(GetPawn());
 	if (player)
+	{
 		player->SetUnitsSelected(false);
+		player->SetSelling(false);
+		player->SetRepairing(false);
+		player->SetTogglePower(false);
+	}
+	
 }
 
 void AInGameController::SpawnBuildingFromID(FVector TargetLocation)
 {
-	
+
 
 	//*
 	APlayerCharacter* player = Cast<APlayerCharacter>(GetPawn());

@@ -82,6 +82,14 @@ void AUnit::DealDamage(float damage)
 	if (m_Health < 0)
 		m_Health = 0;
 
+	if (m_Health == 0.0f)
+	{
+		Die();
+	}
+}
+
+void AUnit::Die()
+{
 	auto Player = Cast<APlayerCharacter>(GetOwner());
 
 	if (Player)

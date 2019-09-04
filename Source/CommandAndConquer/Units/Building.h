@@ -44,6 +44,12 @@ public:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated)
         class UStaticMeshComponent* m_StaticMesh;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated)
+		class UDestructibleComponent* m_DestructibleMesh;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated)
+		bool m_UsesDestructableMesh = false;
+
     UFUNCTION(BlueprintCallable, BlueprintPure)
         BuildingID GetBuildingID() { return m_BuildingID; }
 
@@ -52,4 +58,6 @@ public:
 
     UFUNCTION(BlueprintCallable, BlueprintPure)
         int GetBuildingCost() { return m_Cost; }
+
+	virtual void Die();
 };

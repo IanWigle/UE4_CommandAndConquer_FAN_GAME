@@ -7,6 +7,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "MusicPlayer.h"
 #include "MusicPlayerComponent.h"
+#include "CnCGameInstance.h"
 
 #include "Engine/World.h"
 #include "Engine/Public/TimerManager.h"
@@ -70,11 +71,11 @@ void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	auto gm = Cast<AMultiPlayerGameMode>(GetWorld()->GetAuthGameMode());
-	if (gm)
-		m_Credits = gm->m_StartingCredits;
+	auto instance = Cast<UCnCGameInstance>(GetGameInstance());
+	if (instance)
+		m_Credits = instance->m_StartingCredits;
 	else
-		m_Credits = 4000;
+		m_Credits = 5000;
 
 	FTransform spawnTransform = GetActorTransform();
 	FActorSpawnParameters SpawnParams;
@@ -110,7 +111,8 @@ void APlayerCharacter::Tick(float DeltaTime)
 
 	if (m_ProducingBuilding == true && m_IsBuildingMakingPaused == false)
 	{
-		m_Credits--;
+		if (m_Credits > 0)
+			m_Credits--;
 
 		if (m_Credits <= 0.0f) m_Credits = 0.0f;
 		else
@@ -352,6 +354,22 @@ void APlayerCharacter::AddToPlayPower(int power)
 
 	m_UsablePower = m_PlayerPowerGenerated + m_PowerConsumed;
 	
+	if (m_UsablePower <= 0)
+	{
+		m_EVAVoiceComponent->SetSound(*m_EVASoundsMap.Find("LowPower"));
+		m_EVAVoiceComponent->Play();
+	}
+}
+
+void APlayerCharacter::RemoveFromPlayerPower(int power)
+{
+	if (power < 0)
+		m_PowerConsumed -= power;
+	else if (power > 0)
+		m_PlayerPowerGenerated -= power;
+
+	m_UsablePower = m_PlayerPowerGenerated + m_PowerConsumed;
+
 	if (m_UsablePower <= 0)
 	{
 		m_EVAVoiceComponent->SetSound(*m_EVASoundsMap.Find("LowPower"));

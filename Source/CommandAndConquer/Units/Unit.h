@@ -93,6 +93,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Unit Health")
 		void DealDamage(float damage);
 
-	UFUNCTION(BlueprintCallable, Category = "Health")
-		float GetMaxHealth() { return m_MaxHealth; }
+	virtual void Die();
+
+	UFUNCTION(BlueprintCallable, Category = "Unit Health")
+		float GetMaxHealth() { return m_MaxHealth; }	
 };

@@ -8,6 +8,7 @@
 #include "UnrealNetwork.h"
 #include "Online.h"
 #include <../Plugins/Online/OnlineSubsystem/Source/Public/OnlineSessionSettings.h>
+#include "StructTypes.h"
 #include "CnCGameInstance.generated.h"
 
 /**
@@ -24,14 +25,40 @@ public:
 	UCnCGameInstance(const FObjectInitializer& ObjectInitializer);
 
 protected:
-	// LAN Data
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	TMap<FString, FLobbyPlayerDetails> m_PlayerDetailMap;
-
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Lobby")
+		TArray<FLobbyPlayerDetails> m_PlayerDetails;
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float m_MasterAudioVolume;
 
+#pragma region LobbyDetails
+	UFUNCTION(BlueprintCallable, Category = "Lobby")
+		FLobbyPlayerDetails GetPlayerDetails(int index);
+	UFUNCTION(BlueprintCallable, Category = "Lobby")
+		void SetPlayerDetails(int index, FLobbyPlayerDetails playerdetails);
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Lobby")
+		bool m_AllowCheats = false;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Lobby")
+		bool m_SpawnCrates = false;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (EditCondition = "m_SpawnCrates"), Category = "Lobby")
+		bool m_CratesAreSafe = true;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Lobby")
+		bool m_FriendlyFire = false;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Lobby")
+		bool m_AllowTeams = true;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Lobby")
+		bool m_AllowUnitCap = false;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (EditCondition = "m_AllowUnitCap"), Category = "Lobby")
+		int m_UnitCap = 100;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (EditCondition = "m_AllowUnitCap"), Category = "Lobby")
+		int m_BuildingCap = 100;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Lobby")
+		int m_StartingCredits = 5000;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Lobby")
+		float m_GameSpeed;
+#pragma endregion LobbyDetails
+
+#pragma region Graphic Settings
 	// Graphics
 	UPROPERTY(EditAnywhere)
 		bool m_bFullscreen;
@@ -48,8 +75,9 @@ public:
 	UPROPERTY(EditAnywhere)
 		FString m_EffectsDetail;
 
-	UFUNCTION(BlueprintCallable, BlueprintPure)
-		FLobbyPlayerDetails GetPlayerDetails(FString playerAddress) { return *m_PlayerDetailMap.Find(playerAddress); }
+	/*UFUNCTION(BlueprintCallable, BlueprintPure)
+		FLobbyPlayerDetails GetPlayerDetails(FString playerAddress) { return *m_PlayerDetailMap.Find(playerAddress); }*/
+#pragma endregion Graphic Settings
 
 #pragma region Session Handling
 #pragma region Creating Sessions
@@ -115,15 +143,15 @@ public:
 
 	TSharedPtr<class FOnlineSessionSearch> SessionSearch;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Network")
 		TArray<int32> SessionMS;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Network")
 		TArray<FString> SessionOwners;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Network")
 		TArray<bool> SessionCanUseCheats;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Network")
 		TArray<bool> SessionIsLAN;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Network")
 		TArray<bool> SessionNumConnections;
 
 	/**
@@ -179,5 +207,5 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Network|Test")
 		void DestroySessionAndLeaveGame();
 #pragma endregion
-#pragma endregion
+#pragma endregion Session Handling
 };

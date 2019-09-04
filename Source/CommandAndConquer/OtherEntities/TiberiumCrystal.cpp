@@ -50,6 +50,10 @@ void ATiberiumCrystal::BeginPlay()
 void ATiberiumCrystal::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if (m_TiberiumLevel == TiberiumLevels::VE_LVL0)
+		Destroy();
+
 	RefreshModels();
 
 	FMatrix DebugMatrix;

@@ -115,6 +115,15 @@ enum class UnitBehaviors : uint8
 };
 
 UENUM(BlueprintType)
+enum class UnitAttackBehavior : uint8
+{
+	VE_Aggressive			UMETA(DisplayName = "Aggressive"),
+	VE_Guard				UMETA(DisplayName = "Guard"),
+	VE_HoldGround			UMETA(DisplayName = "HoldGround"),
+	VE_HoldFire				UMETA(DisplayName = "HoldFire"),
+};
+
+UENUM(BlueprintType)
 enum class TiberiumLevels : uint8
 {
 	VE_LVL0		UMETA(DisplayName = "Level 0"),
@@ -160,3 +169,21 @@ enum class NukeMissileDirection : uint8
 	VE_DOWN		UMETA(DisplayName = "DOWN"),
 };
 
+UENUM(BlueprintType)
+enum class GunSounds : uint8
+{
+	VE_Pistol		UMETA(DisplayName = "Pistol"),
+	VE_SmallCannon	UMETA(DisplayName = "Small Cannon"),
+	VE_MachineGun	UMETA(DisplayName = "Machine Gun"),
+	VE_MiniGun1		UMETA(DisplayName = "MiniGun 1"),
+	VE_MiniGun2		UMETA(DisplayName = "MiniGun 2"),
+	VE_RandMiniGun	UMETA(DisplayName = "Random MiniGun"),
+	VE_Rocket1		UMETA(DisplayName = "Rocket 1"),
+	VE_Rocket2		UMETA(DisplayName = "Rocket 2"),
+	VE_RandomRocket	UMETA(DisplayName = "Random Rocket"),
+	VE_Tank1		UMETA(DisplayName = "Tank 1"),
+	VE_Tank2		UMETA(DisplayName = "Tank 2"),
+	VE_Tank3		UMETA(DisplayName = "Tank 3"),
+	VE_Tank4		UMETA(DisplayName = "Tank 4"),
+	VE_RandomTank	UMETA(DisplayName = "Random Tank")
+};

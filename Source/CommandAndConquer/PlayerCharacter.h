@@ -41,6 +41,12 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Superweapons")
 		bool m_IsSelectingNukeTarget = false;
 
+	UPROPERTY(VisibleAnywhere, Category = "UI Buttons")
+		bool m_IsSelling = false;
+	UPROPERTY(VisibleAnywhere, Category = "UI Buttons")
+		bool m_IsRepairing = false;
+	UPROPERTY(VisibleAnywhere, Category = "UI Buttons")
+		bool m_TogglePower = false;
 
 	UPROPERTY(VisibleAnywhere, Category = "Unit Logic")
 		bool m_ProducingUnit = false;
@@ -179,6 +185,8 @@ public:
 		int GetPlayerUsablePower() { return m_UsablePower; }
 	UFUNCTION(BlueprintCallable, Exec)
 		void AddToPlayPower(int power);
+	UFUNCTION(BlueprintCallable)
+		void RemoveFromPlayerPower(int power);
 #pragma endregion Player Power
    
 #pragma region Tech Tree
@@ -248,20 +256,26 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 		PlayerTeams m_PlayerTeam;
-
 	UFUNCTION(Exec, meta = (DevelopmentOnly))
 		void AddCredits(int credits) { m_Credits += credits; }
-
 	UFUNCTION(BlueprintPure, BlueprintCallable)
 		PlayerFaction GetPlayerFaction() { return m_PlayerFaction; }
-
 	UFUNCTION(BlueprintPure, BlueprintCallable)
 		bool IsSelectingLocationForNuke() { return m_IsSelectingNukeTarget; }
-
 	UFUNCTION(BlueprintCallable)
 		void SetIsSelectingLocationForNuke(bool state) { m_IsSelectingNukeTarget = state; }
-
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 		FVector m_TargetLocationForSuperweapon;
-
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+		bool IsRepairing() { return m_IsRepairing; }
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+		bool IsSelling() { return m_IsSelling; }
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+		bool IsTogglingPower() { return m_TogglePower; }
+	UFUNCTION(BlueprintCallable)
+		void SetRepairing(bool state) { m_IsRepairing = state; }
+	UFUNCTION(BlueprintCallable)
+		void SetSelling(bool state) { m_IsSelling = state; }
+	UFUNCTION(BlueprintCallable)
+		void SetTogglePower(bool state) { m_TogglePower = state; }
 };

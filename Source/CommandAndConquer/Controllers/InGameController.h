@@ -51,4 +51,7 @@ protected:
     void Select();
     void SelectMultiple();
     void Deselect();
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+		TMap<FString, USoundBase*> m_EVASoundsForButtons;
 };

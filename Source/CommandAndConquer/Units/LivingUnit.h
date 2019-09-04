@@ -20,11 +20,23 @@ protected:
 	UnitRange m_UnitRange = UnitRange::VE_NA;
 	LivingUnitID m_LivingUnitID = LivingUnitID::VE_NA;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		UnitAttackBehavior m_UnitAttackBehavior;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float m_AttackCooldown;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float m_AttackRange;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float m_SightRange;
+
 public:
 
 	ALivingUnit();
 
-	UPROPERTY(EditAnywhere, meta = (ClampMin = "0"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ClampMin = "0"))
 		float m_PrimaryDamage = 0;
 
 	UFUNCTION(BlueprintCallable)
