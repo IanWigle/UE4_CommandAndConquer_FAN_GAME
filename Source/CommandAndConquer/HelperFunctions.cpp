@@ -97,3 +97,33 @@ void UHelperFunctions::AttachComponentToSkeletalMeshSocket(FName socketName, UPr
 		GEngine->AddOnScreenDebugMessage(1, 4.0f, FColor::Red, "Attaching Actor or Skeletal Mesh not passed in properly");
 	}
 }
+
+void AttachActorToStaticMeshSocket(FName socketName, AActor* attachingActor, UStaticMeshComponent* mesh, FAttachmentTransformRules attachRule)
+{
+	if (attachingActor && mesh)
+	{
+		if (mesh->DoesSocketExist(socketName))
+		{
+			attachingActor->AttachToComponent(mesh, attachRule, socketName);
+		}
+		else
+			GEngine->AddOnScreenDebugMessage(1, 4.0f, FColor::Red, "Socket To Attach to Component does not exist!");
+	}
+	else
+		GEngine->AddOnScreenDebugMessage(1, 4.0f, FColor::Red, "Attaching Component or Mesh is not valid");
+}
+
+void AttachComponentToStaticMeshSocket(FName socketName, UPrimitiveComponent* attachingComponent, UStaticMeshComponent* mesh, FAttachmentTransformRules attachRule)
+{
+	if (attachingComponent && mesh)
+	{
+		if (mesh->DoesSocketExist(socketName))
+		{
+			attachingComponent->AttachToComponent(mesh, attachRule, socketName);
+		}
+		else
+			GEngine->AddOnScreenDebugMessage(1, 4.0f, FColor::Red, "Socket To Attach to Component does not exist!");
+	}
+	else
+		GEngine->AddOnScreenDebugMessage(1, 4.0f, FColor::Red, "Attaching Component or Mesh is not valid");
+}

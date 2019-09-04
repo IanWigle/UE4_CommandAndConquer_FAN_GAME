@@ -71,12 +71,25 @@ public:
 
 	static class AActor* GetClosestRefinery(class ACharacter* a_character, class UWorld* world);
 
-	UFUNCTION(BlueprintCallable, Category = "Custom Analytics")
-		static bool IsInEditor(class UWorld* world);
+	static bool IsInEditor(class UWorld* world);
 
-	
 	static void AttachActorToSkeletalMeshSocket(FName socketName, AActor* attachingActor, USkeletalMeshComponent* mesh, FAttachmentTransformRules attachRule);
 
-	
+	static void AttachActorToStaticMeshSocket(FName socketName, AActor* attachingActor, UStaticMeshComponent* mesh, FAttachmentTransformRules attachRule);
+		
 	static void AttachComponentToSkeletalMeshSocket(FName socketName, UPrimitiveComponent* attachingComponent, USkeletalMeshComponent* mesh, FAttachmentTransformRules attachRule);
+
+	static void AttachComponentToStaticMeshSocket(FName socketName, UPrimitiveComponent* attachingComponent, UStaticMeshComponent* mesh, FAttachmentTransformRules attachRule);
+
+	//UFUNCTION(BlueprintCallable, Category = "Custom Attachment Functions")
+	//	static void AddActorToSkeletalMeshSocket(FName socketName, AActor* attachingActor, USkeletalMeshComponent* mesh) { AttachActorToSkeletalMeshSocket(socketName, attachingActor, mesh, FAttachmentTransformRules::SnapToTargetIncludingScale); }
+
+	//UFUNCTION(BlueprintCallable, Category = "Custom Attachment Functions")
+	//	static void AddActorToStaticMeshSocket(FName socketName, AActor* attachingActor, UStaticMeshComponent* mesh) { AttachActorToStaticMeshSocket(socketName, attachingActor, mesh, FAttachmentTransformRules::SnapToTargetIncludingScale); }
+
+	//UFUNCTION(BlueprintCallable, Category = "Custom Attachment Functions")
+	//	static void AddComponentToSkeletalMeshSocket(FName socketName, UPrimitiveComponent* attachingComponent, USkeletalMeshComponent* mesh) { AttachComponentToSkeletalMeshSocket(socketName, attachingComponent, mesh, FAttachmentTransformRules::SnapToTargetIncludingScale); }
+
+	//UFUNCTION(BlueprintCallable, Category = "Custom Attachment Functions")
+	//	static void AddComponentToStaticMeshSocket(FName socketName, UPrimitiveComponent* attachingComponent, UStaticMeshComponent* mesh) { AttachComponentToStaticMeshSocket(socketName, attachingComponent, mesh, FAttachmentTransformRules::SnapToTargetIncludingScale); }
 };
