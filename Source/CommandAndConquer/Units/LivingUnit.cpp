@@ -4,6 +4,7 @@
 #include "LivingUnit.h"
 #include "UnrealNetwork.h"
 #include "Components/BoxComponent.h"
+#include "Runtime/Engine/Classes/GameFramework/Controller.h"
 
 ALivingUnit::ALivingUnit() 
 {
@@ -17,6 +18,14 @@ ALivingUnit::ALivingUnit()
 void ALivingUnit::BeginPlay()
 {
 	Super::BeginPlay();
+
+	/*FTransform transform;
+	FActorSpawnParameters spawnparams;
+	auto controller = GetWorld()->SpawnActor<AController>(m_AIController, transform, spawnparams);
+	if (controller)
+	{
+		controller->Possess(this);
+	}*/
 }
 
 void ALivingUnit::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

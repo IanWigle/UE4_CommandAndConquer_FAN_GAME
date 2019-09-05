@@ -32,6 +32,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float m_SightRange;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TSubclassOf<class AController> m_AIController;
+
 public:
 
 	ALivingUnit();

@@ -144,6 +144,7 @@ void ADefenseBuilding::OnEnemyEnteredSight(UPrimitiveComponent* OverlappedCompon
 			{
 				m_Target = GetClosestEnemyInSight();
 				Cast<ADefenseBuildingController>(GetController())->GetBlackboardComponent()->SetValueAsBool("HasTarget", true);
+				return;
 			}
 			// END IF
 			// ELSE
@@ -151,6 +152,7 @@ void ADefenseBuilding::OnEnemyEnteredSight(UPrimitiveComponent* OverlappedCompon
 			{
 				m_Target = OtherUnit;
 				Cast<ADefenseBuildingController>(GetController())->GetBlackboardComponent()->SetValueAsBool("HasTarget", true);
+				return;
 			}
 			// END ELSE
 		}		

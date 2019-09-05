@@ -2,6 +2,22 @@
 
 
 #include "Obelisk.h"
+#include "Runtime/Engine/Classes/Particles/ParticleSystemComponent.h"
+#include "HelperFunctions.h"
+#include "Components/SphereComponent.h"
+#include "Components/ArrowComponent.h"
+#include "Controllers/DefenseBuildingController.h"
+#include "UnrealNetwork.h"
+#include "Classes/BehaviorTree/BlackboardComponent.h"
+
+void AObelisk::BeginPlay()
+{
+	Super::BeginPlay();
+
+	UHelperFunctions::AttachComponentToSkeletalMeshSocket("CrystalSocket", m_BeamParticleSystem, GetMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale);
+
+	m_BeamParticleSystem->bHiddenInGame = true;
+}
 
 AObelisk::AObelisk()
 {
@@ -26,4 +42,37 @@ AObelisk::AObelisk()
 	m_TypesAllowedToAttack.Add(UnitType::VE_NavyUnit);
 	m_TypesAllowedToAttack.Add(UnitType::VE_Superweapon);
 	m_TypesAllowedToAttack.Add(UnitType::VE_Tank);
+
+	m_BeamParticleSystem = CreateDefaultSubobject<UParticleSystemComponent>("Beam Particle");
+}
+
+void AObelisk::OnEnemyEnteredSight(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	Super::OnEnemyEnteredSight(OverlappedComponent, OtherActor, OtherComp, OtherBodyIndex, bFromSweep, SweepResult);
+
+	if (m_Target)
+	{
+		FTimerHandle ChargeTimer;
+		GetWorld()->GetTimerManager().SetTimer(ChargeTimer, this, &AObelisk::ShowLaser, m_ChargeUpDelay, false);
+	}	
+}
+
+void AObelisk::OnEnemyLeaveSight(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	Super::OnEnemyLeaveSight(OverlappedComp, OtherActor, OtherComp, OtherBodyIndex);
+
+	m_BeamParticleSystem->InstanceParameters[1].Actor = nullptr;
+
+	m_BeamParticleSystem->bHiddenInGame = true;
+}
+
+void AObelisk::ShowLaser()
+{
+	m_BeamParticleSystem->InstanceParameters[0].Actor = this;
+	m_BeamParticleSystem->InstanceParameters[1].Actor = m_Target;
+
+	m_BeamParticleSystem->bHiddenInGame = false;
+
+	FTimerHandle CooldownTimer;
+	//GetWorld()->GetTimerManager().SetTimer(CooldownTimer, this, &AObelisk::HideLaser, m_ChargeCooldown, false);
 }
