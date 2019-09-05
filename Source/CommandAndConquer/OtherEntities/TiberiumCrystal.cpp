@@ -199,6 +199,17 @@ int ATiberiumCrystal::Shrink()
 	return 0;
 }
 
+void ATiberiumCrystal::DestroyCrystal(bool IsInPool)
+{
+	if (IsInPool)
+	{
+		m_OriginSpawner->m_Crystals.RemoveAt(SpawnerArrayIndex);
+		m_OriginSpawner->RemoveFromCrystalPool();
+	}
+		
+	Destroy();
+}
+
 int ATiberiumCrystal::CollectTiberiumWorth()
 {
 	int credits = 0;

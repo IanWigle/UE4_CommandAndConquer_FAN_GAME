@@ -55,6 +55,7 @@ void ATiberiumSpawner::SpawnNewCrystal()
 					newCrystal->m_OriginSpawner = this;
 					AddToCrystalPool();
 					m_Crystals.Add(newCrystal);
+					newCrystal->SpawnerArrayIndex = m_Crystals.Num() - 1;
 				}
 			}
 

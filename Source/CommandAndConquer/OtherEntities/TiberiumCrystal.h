@@ -11,7 +11,8 @@ UCLASS()
 class COMMANDANDCONQUER_API ATiberiumCrystal : public AActor
 {
 	GENERATED_BODY()
-	
+private:
+	friend class ATiberiumSpawner;
 public:	
 	// Sets default values for this actor's properties
 	ATiberiumCrystal();
@@ -55,6 +56,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ClampMax = "5"), Category = "Crystal Data")
 		float m_MaxTimeToGrow = 5;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Crystal Data")
+		int SpawnerArrayIndex = 0;
+
 	void Grow();
 	void SpawnNewCrystal();
 	void RefreshModels();
@@ -91,4 +95,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 		int Shrink();
+
+	UFUNCTION(BlueprintCallable)
+		void DestroyCrystal(bool IsInPool = true);
 };
