@@ -60,19 +60,15 @@ void ATiberiumCrystal::Tick(float DeltaTime)
 	DebugMatrix.TransformPosition(GetActorLocation());
 
 	DrawDebugCircle(GetWorld(), DebugMatrix, m_SpawnCrystalRadius, 20, FColor::Green);
-
 	if (m_TiberiumLevel != TiberiumLevels::VE_LVL3 && !GetWorld()->GetTimerManager().IsTimerActive(m_GrowCrystalHandle) && IsBeingCollected == false)
 	{
 		// run timer
-		GetWorld()->GetTimerManager().SetTimer(m_GrowCrystalHandle, this, &ATiberiumCrystal::Grow, FMath::RandRange(m_MinTimeToGrow,m_MaxTimeToGrow));
+		GetWorld()->GetTimerManager().SetTimer(m_GrowCrystalHandle, this, &ATiberiumCrystal::Grow, FMath::RandRange(m_MinTimeToGrow, m_MaxTimeToGrow));
 	}
 	else if (m_TiberiumWorth == WORTHLVL3 && !GetWorld()->GetTimerManager().IsTimerActive(m_SpawnCrystalHandle) && m_OriginSpawner->CanCrystalsBeMade())
 	{
 		// spawn new crystal
-		GetWorld()->GetTimerManager().SetTimer(m_SpawnCrystalHandle, this, &ATiberiumCrystal::SpawnNewCrystal, FMath::RandRange(m_MinTimeToSpawn, m_MaxTimeToSpawn));
-
-		
-		
+		GetWorld()->GetTimerManager().SetTimer(m_SpawnCrystalHandle, this, &ATiberiumCrystal::SpawnNewCrystal, FMath::RandRange(m_MinTimeToSpawn, m_MaxTimeToSpawn));		
 	}
 }
 
@@ -110,6 +106,8 @@ void ATiberiumCrystal::Grow()
 		m_ActiveModel->SetStaticMesh(m_LargeCrystal);
 		break;
 	}
+
+
 }
 
 void ATiberiumCrystal::SpawnNewCrystal()
