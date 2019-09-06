@@ -95,6 +95,7 @@ void AUnit::Die()
 	if (Player)
 	{
 		Player->m_PlayerBuildings.Remove(this);
+		
 	}
 
 	this->Destroy();

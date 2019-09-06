@@ -16,5 +16,7 @@ class COMMANDANDCONQUER_API AAdvancedPowerPlant : public ABuilding
 
 public:
 	AAdvancedPowerPlant();
+
+	virtual void Die();
 	
 };

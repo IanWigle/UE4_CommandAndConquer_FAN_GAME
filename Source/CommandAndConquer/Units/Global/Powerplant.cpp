@@ -2,6 +2,7 @@
 
 
 #include "Powerplant.h"
+#include "PlayerCharacter.h"
 
 APowerplant::APowerplant()
 {
@@ -22,4 +23,11 @@ void APowerplant::BeginPlay()
 void APowerplant::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
+}
+
+void APowerplant::Die()
+{
+	Cast<APlayerCharacter>(GetOwner())->RemoveFromPlayerPower(m_Power);
+
+	Super::Die();
 }

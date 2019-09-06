@@ -2,6 +2,7 @@
 
 
 #include "AdvancedPowerPlant.h"
+#include "PlayerCharacter.h"
 
 AAdvancedPowerPlant::AAdvancedPowerPlant()
 {
@@ -10,4 +11,11 @@ AAdvancedPowerPlant::AAdvancedPowerPlant()
 	m_UnitArmor = UnitArmor::VE_Light;
 	m_UnitName = "Advanced Powerplant";
 	m_BuildingID = BuildingID::VE_AdvPower;
+}
+
+void AAdvancedPowerPlant::Die()
+{
+	Cast<APlayerCharacter>(GetOwner())->RemoveFromPlayerPower(m_Power);
+
+	Super::Die();
 }
