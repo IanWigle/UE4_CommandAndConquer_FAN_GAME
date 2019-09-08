@@ -13,7 +13,7 @@ enum class UnitType : uint8
     VE_NavyUnit     UMETA(DisplayName = "NavyUnit"),
     VE_Building     UMETA(DisplayName = "Building"),
     VE_Defense      UMETA(DisplayName = "Defense"),
-    VE_Superweapon  UMETA(DisplayName = "Superweapon")
+    VE_Superweapon  UMETA(DisplayName = "Superweapon"),
 };
 
 UENUM(BlueprintType)

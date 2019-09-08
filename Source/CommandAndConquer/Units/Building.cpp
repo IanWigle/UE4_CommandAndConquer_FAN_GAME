@@ -5,6 +5,7 @@
 #include "Components/BoxComponent.h"
 #include "UnrealNetwork.h"
 #include "Components/StaticMeshComponent.h"
+#include "PlayerCharacter.h"
 #include "DestructibleComponent.h"
 
 ABuilding::ABuilding()
@@ -40,14 +41,33 @@ void ABuilding::BeginPlay()
 void ABuilding::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
-}
 
-void ABuilding::Die()
-{
-	
+	if (m_IsBeingRepaired)
+	{
+		APlayerCharacter* player = Cast<APlayerCharacter>(GetOwner());
 
+		if (m_Health == m_MaxHealth)
+			m_IsBeingRepaired = false;
 
-	Super::Die();
+		if (player && m_IsBeingRepaired == true)
+		{
+			if (player->GetUserCredits() > 0)
+			{
+				player->AddCredits(-5);
+
+				if (player->GetUserCredits() < 0)
+					player->AddCredits(-player->GetUserCredits());
+
+				m_Health += 10;
+
+				if (m_Health >= m_MaxHealth)
+				{
+					m_Health = m_MaxHealth;
+					m_IsBeingRepaired = false;
+				}
+			}
+		}
+	}
 }
 
 void ABuilding::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

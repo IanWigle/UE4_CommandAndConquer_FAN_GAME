@@ -278,4 +278,8 @@ public:
 		void SetSelling(bool state) { m_IsSelling = state; }
 	UFUNCTION(BlueprintCallable)
 		void SetTogglePower(bool state) { m_TogglePower = state; }
+	UFUNCTION(BlueprintCallable, Exec)
+		void RefreshPlayerPower();
+	UFUNCTION(BlueprintCallable)
+		bool AreThereAnyRadarPowered();
 };

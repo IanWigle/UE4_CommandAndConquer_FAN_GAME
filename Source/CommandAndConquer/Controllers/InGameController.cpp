@@ -87,6 +87,31 @@ void AInGameController::Select()
 	FHitResult SelectingUnitHit;
 	APlayerCharacter* player = Cast<APlayerCharacter>(GetPawn());
 
+#pragma region Attacking Enemy
+	if (GetHitResultUnderCursorByChannel(ETraceTypeQuery::TraceTypeQuery1, true, SelectingUnitHit))
+	{
+		AUnit* enemy = Cast<AUnit>(SelectingUnitHit.GetActor());
+
+		if (enemy)
+		{
+			if (m_SelectedUnits.Num() > 0 && enemy->m_Team != player->m_PlayerTeam)
+			{
+				for (ALivingUnit* unit : m_SelectedUnits)
+				{
+					auto controller = Cast<AGeneralUnitAIController>(unit->GetController());
+
+					if (controller)
+					{
+						controller->GetBlackboardComponent()->SetValueAsObject("EnemyActor", enemy);
+					}
+				}
+				return;
+			}
+		}
+		
+	}
+#pragma endregion
+
 #pragma region Selecting and Moving Units  
 	// IF the raycast to a unit was successful AND the player is NOT selecting a location for a building.
 	if (GetHitResultUnderCursorByChannel(ETraceTypeQuery::TraceTypeQuery1, true, SelectingUnitHit) && !player->IsSelectingLocation())
@@ -217,8 +242,54 @@ void AInGameController::Select()
 			player->RemoveFromPlayerPower(building->GetPowerValue());
 			building->Die();
 		}
+
+		player->SetSelling(false);
 	}
 #pragma endregion
+
+#pragma region Toggle Building Power
+	if (GetHitResultUnderCursorByChannel(ETraceTypeQuery::TraceTypeQuery1, true, SelectingUnitHit) && player->IsTogglingPower())
+	{
+		auto building = Cast<ABuilding>(SelectingUnitHit.GetActor());
+
+		if (building)
+		{
+			if (building->m_HasPower == true)
+			{
+				building->m_HasPower = !building->m_HasPower;
+				player->RemoveFromPlayerPower(building->GetPowerValue());
+			}
+			else if (building->m_HasPower == false)
+			{
+				building->m_HasPower = !building->m_HasPower;
+				player->AddToPlayPower(building->GetPowerValue());
+			}
+		}
+		player->SetTogglePower(false);
+	}
+#pragma endregion Toggle Building Power
+
+#pragma region Toggle Repair
+	if (GetHitResultUnderCursorByChannel(ETraceTypeQuery::TraceTypeQuery1, true, SelectingUnitHit) && player->IsRepairing())
+	{
+		auto building = Cast<ABuilding>(SelectingUnitHit.GetActor());
+
+		if (building)
+		{
+			if (building->m_Team == player->m_PlayerTeam)
+			{
+				if (building->m_IsBeingRepaired == false)
+					building->m_IsBeingRepaired = true;
+				else if (building->m_IsBeingRepaired == true)
+					building->m_IsBeingRepaired = false;
+			}
+		}
+
+		player->SetRepairing(false);
+	}
+#pragma endregion Toggle Repair
+
+
 }
 
 void AInGameController::SelectMultiple()

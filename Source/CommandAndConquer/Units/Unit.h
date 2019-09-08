@@ -97,4 +97,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Unit Health")
 		float GetMaxHealth() { return m_MaxHealth; }	
+
+	UFUNCTION(BlueprintCallable, Category = "Unit Health")
+		float GetCurrentHealth() { return m_Health; }
 };

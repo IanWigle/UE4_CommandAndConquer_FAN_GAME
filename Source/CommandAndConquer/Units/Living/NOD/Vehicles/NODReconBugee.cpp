@@ -12,4 +12,12 @@ ANODReconBugee::ANODReconBugee()
 	m_Health = 140;
 	m_UnitName = "NODBuggy";
 	m_MaxHealth = m_Health;
+
+	m_TypesPossibleToAttack.Add(UnitType::VE_Aircraft);
+	m_TypesPossibleToAttack.Add(UnitType::VE_Building);
+	m_TypesPossibleToAttack.Add(UnitType::VE_Defense);
+	m_TypesPossibleToAttack.Add(UnitType::VE_Infantry);
+	m_TypesPossibleToAttack.Add(UnitType::VE_NavyUnit);
+	m_TypesPossibleToAttack.Add(UnitType::VE_Superweapon);
+	m_TypesPossibleToAttack.Add(UnitType::VE_Tank);
 }

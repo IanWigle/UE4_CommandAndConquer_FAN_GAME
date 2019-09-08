@@ -1,12 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "NODBugee.h"
+#include "Apache.h"
 
-ANODBugee::ANODBugee()
+AApache::AApache()
 {
-	m_LivingUnitID = LivingUnitID::VE_Recon;
-	m_UnitArmor = UnitArmor::VE_Light;
+	m_LivingUnitID = LivingUnitID::VE_Heli;
+	m_UnitArmor = UnitArmor::VE_Heavy;
 	m_UnitRange = UnitRange::VE_Medium;
 
 	m_TypesPossibleToAttack.Add(UnitType::VE_Building);

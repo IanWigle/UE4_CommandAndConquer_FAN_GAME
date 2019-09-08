@@ -3,18 +3,17 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Units/Vehicle.h"
-#include "NODBugee.generated.h"
+#include "Units/Aircraft.h"
+#include "Apache.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class COMMANDANDCONQUER_API ANODBugee : public AVehicle
+class COMMANDANDCONQUER_API AApache : public AAircraft
 {
 	GENERATED_BODY()
-	
-public:
 
-	ANODBugee();
+public:
+	AApache();	
 };

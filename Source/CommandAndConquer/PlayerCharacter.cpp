@@ -25,6 +25,7 @@
 #include "Units/Living/NOD/Vehicles/NODBugee.h"
 #include "Units/Living/NOD/Vehicles/NODReconBugee.h"
 #include "Units/Living/Harvester.h"
+#include "Units/Living/NOD/Apache.h"
 #pragma endregion Unit Headers
 
 // Sets default values
@@ -143,8 +144,6 @@ void APlayerCharacter::Tick(float DeltaTime)
 			tempMaxCredits += 1000;
 		else if (Cast<ABuilding>(m_PlayerBuildings[i])->GetBuildingID() == BuildingID::VE_Silo)
 			tempMaxCredits += 1500;
-		else if (Cast<ABuilding>(m_PlayerBuildings[i])->GetBuildingID() == BuildingID::VE_Yard)
-			tempMaxCredits += 3000;
 	}
 	m_MaxCredits = tempMaxCredits;
 }
@@ -206,7 +205,7 @@ void APlayerCharacter::ResetUnitProduction()
 	m_IsUnitMakingPaused = false;
 }
 
-ALivingUnit * APlayerCharacter::SpawnUnitFromID(LivingUnitID ID)
+ALivingUnit* APlayerCharacter::SpawnUnitFromID(LivingUnitID ID)
 {
 	FActorSpawnParameters Spawnparams;
 	Spawnparams.Owner = this;
@@ -227,7 +226,7 @@ ALivingUnit * APlayerCharacter::SpawnUnitFromID(LivingUnitID ID)
 					if (prodbuilding->IsPrimaryBuilding())
 					{
 						SpawnTransform.SetLocation(prodbuilding->GetSpawnLocation());
-						
+
 						ALivingUnit* livingunit = nullptr;
 						{
 							switch (ID)
@@ -322,12 +321,36 @@ ALivingUnit * APlayerCharacter::SpawnUnitFromID(LivingUnitID ID)
 							m_PlayerArmy.Add(livingunit);
 							m_EVAVoiceComponent->SetSound(*m_EVASoundsMap.Find("UnitReady"));
 							m_EVAVoiceComponent->Play();
-						}		
+						}
 						return livingunit;
 					}
 				}
 			}
-		}		
+		}
+		else if (m_UnitTypeThatIsBeingMade == UnitType::VE_Aircraft)
+		{
+			if (Cast<ABuilding>(m_PlayerBuildings[i])->GetBuildingID() == BuildingID::VE_Helipad)
+			{
+				auto prodbuilding = Cast<AProductionBuilding>(m_PlayerBuildings[i]);
+
+				if (prodbuilding)
+				{
+					if (prodbuilding->IsPrimaryBuilding())
+					{
+						SpawnTransform.SetLocation(prodbuilding->GetSpawnLocation());
+
+						ALivingUnit* livingunit = nullptr;
+
+						switch (ID)
+						{
+						case LivingUnitID::VE_Heli:
+							livingunit = Cast<ALivingUnit>(GetWorld()->SpawnActor<AApache>(*m_UnitArsenal.Find("Apache"), SpawnTransform, Spawnparams));
+							break;
+						}
+					}
+				}
+			}
+		}
 	}
 	return nullptr;
 }
@@ -353,7 +376,7 @@ void APlayerCharacter::AddToPlayPower(int power)
 		m_PlayerPowerGenerated += power;
 
 	m_UsablePower = m_PlayerPowerGenerated + m_PowerConsumed;
-	
+
 	if (m_UsablePower <= 0)
 	{
 		m_EVAVoiceComponent->SetSound(*m_EVASoundsMap.Find("LowPower"));
@@ -375,6 +398,23 @@ void APlayerCharacter::RemoveFromPlayerPower(int power)
 		m_EVAVoiceComponent->SetSound(*m_EVASoundsMap.Find("LowPower"));
 		m_EVAVoiceComponent->Play();
 	}
+}
+
+void APlayerCharacter::RefreshPlayerPower()
+{
+	for (auto unit : m_PlayerBuildings)
+	{
+		ABuilding* building = Cast<ABuilding>(unit);
+		if (building)
+		{
+			if (building->GetPowerValue() < 0 && building->m_HasPower == true)
+				m_PowerConsumed -= building->GetPowerValue();
+			else if (building->GetPowerValue() > 0 && building->m_HasPower == true)
+				m_PlayerPowerGenerated -= building->GetPowerValue();
+		}
+	}
+
+	m_UsablePower = m_PlayerPowerGenerated + m_PowerConsumed;
 }
 
 bool APlayerCharacter::DoWeUnlockNewTech(BuildingID ID)
@@ -418,6 +458,21 @@ void APlayerCharacter::MiniMapZoom(float value)
 	FVector origin = RadarCamera->GetComponentLocation();
 	origin.Z += value * m_RadarZoomSpeed;
 	RadarCamera->SetWorldLocation(origin);
+}
+
+bool APlayerCharacter::AreThereAnyRadarPowered()
+{
+	for (auto unit : m_PlayerBuildings)
+	{
+		ABuilding* building = Cast<ABuilding>(unit);
+		if (building)
+		{
+			if ((building->GetBuildingID() == BuildingID::VE_AdvComm || building->GetBuildingID() == BuildingID::VE_Comm) &&
+				building->m_HasPower == true) return true;
+		}
+	}
+
+	return false;
 }
 
 void APlayerCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

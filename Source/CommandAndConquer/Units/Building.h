@@ -53,11 +53,15 @@ public:
     UFUNCTION(BlueprintCallable, BlueprintPure)
         BuildingID GetBuildingID() { return m_BuildingID; }
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+		bool m_HasPower = true;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+		bool m_IsBeingRepaired = false;
+
     UFUNCTION(BlueprintCallable, BlueprintPure)
         int GetPowerValue() { return m_Power; }
 
     UFUNCTION(BlueprintCallable, BlueprintPure)
         int GetBuildingCost() { return m_Cost; }
-
-	virtual void Die();
 };

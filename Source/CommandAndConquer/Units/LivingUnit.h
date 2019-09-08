@@ -29,11 +29,25 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float m_AttackRange;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ClampMin = "0"))
 		float m_SightRange;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		TSubclassOf<class AController> m_AIController;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated)
+		AActor* m_MainTarget;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		TArray<class AUnit*> m_Targets;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TArray<UnitType> m_TypesPossibleToAttack;
+
+	bool IsUnitAlreadyListed(AUnit* unit);
+	bool CanUnitAttackTarget(UnitType othertype);
+
+	AUnit* GetClosestEnemyInSight();
 
 public:
 
@@ -47,4 +61,21 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated)
 		class UBoxComponent* m_LivingUnitCollider;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class USphereComponent* m_SightRadiusComponent;
+
+	UFUNCTION()
+		virtual void OnEnemyEnteredSight(UPrimitiveComponent* OverlappedComponent,
+			AActor* OtherActor,
+			UPrimitiveComponent* OtherComp,
+			int32 OtherBodyIndex,
+			bool bFromSweep,
+			const FHitResult& SweepResult);
+
+	UFUNCTION()
+		virtual void OnEnemyLeaveSight(UPrimitiveComponent* OverlappedComp,
+			AActor* OtherActor,
+			UPrimitiveComponent* OtherComp,
+			int32 OtherBodyIndex);
 };
