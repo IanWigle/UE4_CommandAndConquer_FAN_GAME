@@ -48,13 +48,14 @@ TODO (Models)
 			Sandbags
 			ChainLink
 			Concrete Wall
+			
+			Transport (aircraft)
 
 	NOD:
 			Light Tank
 			Artillery
 
 			All infantry
-			All Aircraft
 			
 	GDI:
 	
