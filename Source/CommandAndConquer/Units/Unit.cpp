@@ -31,6 +31,11 @@ void AUnit::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (m_InstantlyKill)
+	{
+		m_InstantlyKill = false;
+		Die();
+	}
 }
 
 // Called to bind functionality to input

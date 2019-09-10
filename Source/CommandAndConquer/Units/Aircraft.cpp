@@ -33,4 +33,35 @@ void AAircraft::Tick(float DeltaTime)
 			m_LivingUnitCollider->SetWorldLocation(position);
 		}
 	}
+	/*else if (m_IsFlying == false)
+	{
+
+			FVector position = GetMesh()->GetComponentLocation();
+			position.Z -= ((m_HorizontalSpeed*2) * DeltaTime);
+
+			if (position.Z <= m_GroundHeight)
+				position.Z = m_GroundHeight;
+
+			GetMesh()->SetWorldLocation(position);
+
+			FVector boundryposition = m_LivingUnitCollider->GetComponentLocation();
+			position.Z += (m_HorizontalSpeed * DeltaTime);
+			m_LivingUnitCollider->SetWorldLocation(position);
+
+	}*/
+}
+
+void AAircraft::Die()
+{
+	m_IsFlying = false;
+
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	GetMesh()->SetSimulatePhysics(true);
+	GetMesh()->SetEnableGravity(true);
+	m_LivingUnitCollider->SetEnableGravity(true);
+	m_LivingUnitCollider->SetSimulatePhysics(true);
+
+	FTimerHandle deathhandle;
+
+	GetWorld()->GetTimerManager().SetTimer(deathhandle, this, &AAircraft::DestroyAircraft, 10, false);
 }

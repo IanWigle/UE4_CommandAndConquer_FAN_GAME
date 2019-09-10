@@ -56,6 +56,8 @@ public:
 		int m_StartingCredits = 5000;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Lobby")
 		float m_GameSpeed;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Lobby")
+		TArray<int> m_StartingLocations;
 #pragma endregion LobbyDetails
 
 #pragma region Graphic Settings

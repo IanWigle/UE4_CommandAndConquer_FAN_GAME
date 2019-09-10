@@ -17,6 +17,7 @@ UCnCGameInstance::UCnCGameInstance(const FObjectInitializer& ObjectInitializer) 
 	OnDestroySessionCompleteDelegate = FOnDestroySessionCompleteDelegate::CreateUObject(this, &UCnCGameInstance::OnDestroySessionComplete);
 
 	m_PlayerDetails.SetNum(8);
+	m_StartingLocations.SetNum(8);
 }
 
 #pragma region Creating Sessions
