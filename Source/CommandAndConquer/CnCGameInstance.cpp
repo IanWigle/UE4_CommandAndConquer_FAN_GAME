@@ -3,6 +3,8 @@
 
 #include "CnCGameInstance.h"
 #include <Engine/LocalPlayer.h>
+#include "Kismet/GameplayStatics.h"
+#include "GameFramework/PlayerStart.h"
 
 UCnCGameInstance::UCnCGameInstance(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
@@ -21,6 +23,20 @@ UCnCGameInstance::UCnCGameInstance(const FObjectInitializer& ObjectInitializer) 
 }
 
 #pragma region Creating Sessions
+
+AActor* UCnCGameInstance::GetSpawnLocationFromLobby(int userIndex)
+{
+	TArray<AActor*> foundSpawns;
+	TSubclassOf<APlayerStart> playerstarts;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), playerstarts, foundSpawns);
+
+	if (foundSpawns.Num() > 0 && foundSpawns.IsValidIndex(userIndex))
+	{
+		return foundSpawns[m_StartingLocations[userIndex]];
+	}
+
+	return nullptr;
+}
 
 FLobbyPlayerDetails UCnCGameInstance::GetPlayerDetails(int index)
 {

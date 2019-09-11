@@ -31,6 +31,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float m_MasterAudioVolume;
 
+	UFUNCTION(BlueprintCallable)
+		AActor* GetSpawnLocationFromLobby(int userIndex);
+
 #pragma region LobbyDetails
 	UFUNCTION(BlueprintCallable, Category = "Lobby")
 		FLobbyPlayerDetails GetPlayerDetails(int index);

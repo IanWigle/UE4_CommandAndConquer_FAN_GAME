@@ -92,4 +92,6 @@ public:
 
 	//UFUNCTION(BlueprintCallable, Category = "Custom Attachment Functions")
 	//	static void AddComponentToStaticMeshSocket(FName socketName, UPrimitiveComponent* attachingComponent, UStaticMeshComponent* mesh) { AttachComponentToStaticMeshSocket(socketName, attachingComponent, mesh, FAttachmentTransformRules::SnapToTargetIncludingScale); }
+
+	
 };

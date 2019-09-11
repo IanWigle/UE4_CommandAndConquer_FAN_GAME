@@ -74,7 +74,11 @@ void APlayerCharacter::BeginPlay()
 
 	auto instance = Cast<UCnCGameInstance>(GetGameInstance());
 	if (instance)
+	{
 		m_Credits = instance->m_StartingCredits;
+
+		auto spawnPoint = instance->GetSpawnLocationFromLobby(GetController()->GetNetIndex());
+	}		
 	else
 		m_Credits = 5000;
 
