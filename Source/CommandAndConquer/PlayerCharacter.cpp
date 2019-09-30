@@ -17,6 +17,7 @@
 #include "Components/AudioComponent.h"
 #include "GameModes/MultiPlayerGameMode.h"
 #include "UnrealNetwork.h"
+#include "GameFramework/PlayerController.h"
 
 #pragma region Unit Headers
 #include "Units/ProductionBuilding.h"
@@ -77,7 +78,7 @@ void APlayerCharacter::BeginPlay()
 	{
 		m_Credits = instance->m_StartingCredits;
 
-		auto spawnPoint = instance->GetSpawnLocationFromLobby(GetController()->GetNetIndex());
+		auto spawnPoint = instance->GetSpawnLocationFromLobby(Cast<APlayerController>(GetController())->NetPlayerIndex);
 	}		
 	else
 		m_Credits = 5000;
