@@ -3,10 +3,3 @@
 
 #include "LobbyStructs.h"
 
-LobbyStructs::LobbyStructs()
-{
-}
-
-LobbyStructs::~LobbyStructs()
-{
-}

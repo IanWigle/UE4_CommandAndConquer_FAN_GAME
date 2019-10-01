@@ -3,13 +3,3 @@
 #pragma once
 
 #include "CoreMinimal.h"
-
-/**
- * 
- */
-class COMMANDANDCONQUER_API LobbyStructs
-{
-public:
-	LobbyStructs();
-	~LobbyStructs();
-};

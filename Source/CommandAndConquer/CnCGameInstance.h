@@ -26,7 +26,7 @@ public:
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Lobby")
-		TArray<FLobbyPlayerDetails> m_PlayerDetails;
+		TArray<FLobbyPlayerDetails> m_SinglePlayerDetails;
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float m_MasterAudioVolume;

@@ -13,20 +13,26 @@ struct FLobbyPlayerDetails
 {
 	GENERATED_USTRUCT_BODY()
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		PlayerTeams m_Team;
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		PlayerFaction m_Faction;
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		FString m_Color;
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		FName m_PlayerName;
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		int32 m_StartingLocation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool m_IsComputer;
+
+	UPROPERTY()
+		FString m_BotDifficutly;
 
 	FLobbyPlayerDetails()
 	{
@@ -37,7 +43,7 @@ struct FLobbyPlayerDetails
 		m_StartingLocation = 0;
 	}
 
-	
+	//UFUNCTION(BlueprintCallable)
 		void ChangeTeam(PlayerTeams team) { m_Team = team; }
 	
 		void ChangeFaction(PlayerFaction faction) { m_Faction = faction; }

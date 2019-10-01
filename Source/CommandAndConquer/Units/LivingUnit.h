@@ -32,8 +32,8 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ClampMin = "0"))
 		float m_SightRange;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TSubclassOf<class AController> m_AIController;
+	/*UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TSubclassOf<class AController> m_AIController;*/
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated)
 		AActor* m_MainTarget;
