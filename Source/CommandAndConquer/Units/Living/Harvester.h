@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Units/Vehicle.h"
 #include "Units/Buildings/Global/TiberiumRefinery.h"
+#include "EnumTypes.h"
 #include "Harvester.generated.h"
 
 /**
@@ -25,7 +26,19 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		TSubclassOf<class ATiberiumSpawner> m_SpawnerTemplate;
 
-	void FindClosestCrystal();
+	
+
+#pragma region AI Behavior
+    UFUNCTION(BlueprintCallable, Category = "Havester | AI")
+        void FindClosestCrystal();
+    UFUNCTION(BlueprintCallable, Category = "Havester | AI")
+        void CollectTiberium(UBlackboardComponent* Blackboard); 
+    UFUNCTION(BlueprintCallable, Category = "Havester | AI")
+        void EmptyHarvester(UBlackboardComponent* Blackboard);
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
+        HarvesterBehavior m_HarvesterCurrentBehavior;
+#pragma endregion
+
 public:
 	virtual void Tick(float DeltaTime) override;
 

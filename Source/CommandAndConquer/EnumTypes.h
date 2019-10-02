@@ -187,3 +187,14 @@ enum class GunSounds : uint8
 	VE_Tank4		UMETA(DisplayName = "Tank 4"),
 	VE_RandomTank	UMETA(DisplayName = "Random Tank")
 };
+
+UENUM(BlueprintType)
+enum class HarvesterBehavior : uint8
+{
+    VE_LookingForCrystal,
+    VE_GoingToCrystal,
+    VE_Collecting,
+    VE_Returning,
+    VE_Emptying,
+    VE_Idle
+};

@@ -8,6 +8,9 @@
 #include "Engine/World.h"
 #include "Blueprint/AIBlueprintHelperLibrary.h"
 #include "AI/HarvesterController.h"
+#include "BehaviorTree/BlackboardComponent.h"
+#include "Units/Buildings/Global/TiberiumRefinery.h"
+#include "PlayerCharacter.h"
 
 
 void AHarvester::BeginPlay()
@@ -78,4 +81,76 @@ void AHarvester::FindClosestCrystal()
 			UAIBlueprintHelperLibrary::SimpleMoveToLocation(GetController(), m_TargetCrystal->GetActorLocation());			
 		}
 	}
+}
+
+void AHarvester::CollectTiberium(UBlackboardComponent* Blackboard)
+{
+    bool CargoIsFull = false;
+    bool WasCrystalDestroyed = false;
+
+    // If blackboard is invalid exit the function.
+    if (Blackboard == nullptr)
+        return;
+
+    // Get the target crystal that the harvester is going towards. If the cast is invalid exit the function.
+    ATiberiumCrystal* crystal = Cast<ATiberiumCrystal>(Blackboard->GetValueAsObject("TargetCrystal"));
+    if (crystal == nullptr)
+        return;
+
+    // Mark the crystal to be collected.
+    crystal->IsBeingCollected = true;
+
+    // Collect the credits from the crystal
+    int credits = crystal->CollectTiberiumWorth();
+
+    // If the cargo would be full or more than the max cargo
+    if ((m_Cargo + credits) >= m_MaxCargo)
+    {
+        // The cargo is full and set the cargo to the max value.
+        CargoIsFull = true;
+        m_Cargo = m_MaxCargo;
+    }
+    else
+    {
+        m_Cargo += credits;
+    }
+
+    // If the crystals level is 0
+    if (crystal->GetTiberiumLevel() == TiberiumLevels::VE_LVL0)
+    {
+        // Destroy the crystal.
+        crystal->DestroyCrystal();
+        WasCrystalDestroyed = true;
+    }
+        
+    if (CargoIsFull)
+    {
+        Blackboard->SetValueAsEnum("HarvestorMode", 3);
+    }
+    else if (WasCrystalDestroyed)
+    {
+        Blackboard->SetValueAsEnum("HarvestorMode", 0);
+    }
+}
+
+void AHarvester::EmptyHarvester(UBlackboardComponent* Blackboard)
+{
+    if (Blackboard == nullptr)
+        return;
+
+    ATiberiumRefinery* refinery = Cast<ATiberiumRefinery>(Blackboard->GetValueAsObject("OriginalRefinery"));
+    if (refinery == nullptr)
+        return;
+
+    APlayerCharacter* player = Cast<APlayerCharacter>(refinery->GetOwner());
+    if (player == nullptr)
+        return;
+
+    if (player->GetUserCredits() < player->GetMaxUserCredits())
+    {
+        m_Cargo--;
+        player->AddCredits(-1);
+        if (m_Cargo == 0)        
+            Blackboard->SetValueAsEnum("HarvestorMode", 0);        
+    }
 }
