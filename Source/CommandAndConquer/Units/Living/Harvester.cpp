@@ -148,9 +148,16 @@ void AHarvester::EmptyHarvester(UBlackboardComponent* Blackboard)
 
     if (player->GetUserCredits() < player->GetMaxUserCredits())
     {
-        m_Cargo--;
-        player->AddCredits(-1);
-        if (m_Cargo == 0)        
-            Blackboard->SetValueAsEnum("HarvestorMode", 0);        
+		if (m_Cargo > 0)
+		{
+			m_Cargo--;
+			player->AddCredits(1);
+			if (m_Cargo <= 0)
+				Blackboard->SetValueAsEnum("HarvestorMode", 0);
+		}
     }
+	else if (m_Cargo == 0)
+	{
+		Blackboard->SetValueAsEnum("HarvestorMode", 0);
+	}
 }
