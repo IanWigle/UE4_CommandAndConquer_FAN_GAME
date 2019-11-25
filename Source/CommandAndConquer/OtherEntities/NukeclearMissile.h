@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/StaticMeshActor.h"
-#include "EnumTypes.h"
+#include "DataTypes/EnumTypes.h"
 #include "NukeclearMissile.generated.h"
 
 /**

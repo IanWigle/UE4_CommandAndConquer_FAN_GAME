@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Units/Superweapon.h"
+#include "Units/Buildings/Superweapon.h"
 #include "TempleOfNod.generated.h"
 
 /**

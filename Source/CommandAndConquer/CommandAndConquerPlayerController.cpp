@@ -5,7 +5,7 @@
 #include "Runtime/Engine/Classes/Components/DecalComponent.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "CommandAndConquerCharacter.h"
-#include "Units/Unit.h"
+#include "Units/Living/Unit.h"
 #include "Engine/World.h"
 
 ACommandAndConquerPlayerController::ACommandAndConquerPlayerController()

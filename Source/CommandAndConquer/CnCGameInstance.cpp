@@ -18,7 +18,7 @@ UCnCGameInstance::UCnCGameInstance(const FObjectInitializer& ObjectInitializer) 
 	/** Bind function for DESTROYING a Session */
 	OnDestroySessionCompleteDelegate = FOnDestroySessionCompleteDelegate::CreateUObject(this, &UCnCGameInstance::OnDestroySessionComplete);
 
-	m_SinglePlayerDetails.SetNum(8);
+//	m_SinglePlayerDetails.SetNum(8);
 	m_StartingLocations.SetNum(8);
 }
 
@@ -38,23 +38,23 @@ AActor* UCnCGameInstance::GetSpawnLocationFromLobby(int userIndex)
 	return nullptr;
 }
 
-FLobbyPlayerDetails UCnCGameInstance::GetPlayerDetails(int index)
-{
-	if (m_SinglePlayerDetails.IsValidIndex(index))
-	{
-		return m_SinglePlayerDetails[index];
-	}
+//FLobbyPlayerDetails UCnCGameInstance::GetPlayerDetails(int index)
+//{
+//	if (m_SinglePlayerDetails.IsValidIndex(index))
+//	{
+//		return m_SinglePlayerDetails[index];
+//	}
+//
+//	return m_SinglePlayerDetails[0];
+//}
 
-	return m_SinglePlayerDetails[0];
-}
-
-void UCnCGameInstance::SetPlayerDetails(int index, FLobbyPlayerDetails playerdetails)
-{
-	if (m_SinglePlayerDetails.IsValidIndex(index))
-	{
-		m_SinglePlayerDetails[index] = playerdetails;
-	}
-}
+//void UCnCGameInstance::SetPlayerDetails(int index, FLobbyPlayerDetails playerdetails)
+//{
+//	if (m_SinglePlayerDetails.IsValidIndex(index))
+//	{
+//		m_SinglePlayerDetails[index] = playerdetails;
+//	}
+//}
 
 #pragma region Session Handling
 

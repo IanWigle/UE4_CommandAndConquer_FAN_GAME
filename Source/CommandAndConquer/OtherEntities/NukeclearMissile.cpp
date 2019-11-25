@@ -5,10 +5,10 @@
 #include "Components/SphereComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/AudioComponent.h"
-#include "Units/Superweapon.h"
+#include "Units/Buildings/Superweapon.h"
 #include "Engine/World.h"
 #include "PlayerCharacter.h"
-#include "Units/Unit.h"
+#include "Units/Living/Unit.h"
 
 void ANukeclearMissile::Explode()
 {

@@ -3,9 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Units/Vehicle.h"
+#include "Units/Living/Vehicle.h"
 #include "Units/Buildings/Global/TiberiumRefinery.h"
-#include "EnumTypes.h"
+#include "DataTypes/EnumTypes.h"
 #include "Harvester.generated.h"
 
 /**

@@ -3,7 +3,7 @@
 
 #include "Obelisk.h"
 #include "Runtime/Engine/Classes/Particles/ParticleSystemComponent.h"
-#include "HelperFunctions.h"
+#include "Helpers/HelperFunctions.h"
 #include "Components/SphereComponent.h"
 #include "Components/ArrowComponent.h"
 #include "Controllers/DefenseBuildingController.h"

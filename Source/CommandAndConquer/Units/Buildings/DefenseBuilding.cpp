@@ -4,7 +4,7 @@
 #include "DefenseBuilding.h"
 #include "Components/SphereComponent.h"
 #include "Components/ArrowComponent.h"
-#include "HelperFunctions.h"
+#include "Helpers/HelperFunctions.h"
 #include "Controllers/DefenseBuildingController.h"
 #include "UnrealNetwork.h"
 #include "Classes/BehaviorTree/BlackboardComponent.h"

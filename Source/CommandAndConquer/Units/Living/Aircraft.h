@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Units/LivingUnit.h"
+#include "Units/Living/LivingUnit.h"
 #include "Aircraft.generated.h"
 
 /**

@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Units/DefenseBuilding.h"
+#include "Units/Buildings/DefenseBuilding.h"
 #include "Turret.generated.h"
 
 /**

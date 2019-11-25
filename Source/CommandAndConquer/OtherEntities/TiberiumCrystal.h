@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "EnumTypes.h"
+#include "DataTypes/EnumTypes.h"
 #include "TiberiumCrystal.generated.h"
 
 UCLASS()

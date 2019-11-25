@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Units/Vehicle.h"
+#include "Units/Living/Vehicle.h"
 #include "NODReconBugee.generated.h"
 
 /**

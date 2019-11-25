@@ -2,13 +2,13 @@
 
 
 #include "SpawningHelpers.h"
-#include "Units/Building.h"
+#include "Units/Buildings/Building.h"
 #include "PlayerCharacter.h"
 #include "GameFramework/PlayerController.h"
 #include "Engine/World.h"
 
-#include "Units/Global/ConstructionYard.h"
-#include "Units/Global/Powerplant.h"
+#include "Units/Buildings/Global/ConstructionYard.h"
+#include "Units/Buildings/Global/Powerplant.h"
 
 TSubclassOf<class ABuilding> USpawningHelpers::DetermineWhichBuildingToMake(BuildingID ID, APlayerController* playerController)
 {

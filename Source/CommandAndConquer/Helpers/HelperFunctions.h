@@ -4,9 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
-#include "EnumTypes.h"
+#include "DataTypes/EnumTypes.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
-#include "Units/Building.h"
+#include "Units/Buildings/Building.h"
 #include "Engine/World.h"
 #include "Engine/EngineTypes.h"
 #include "GenericPlatform/GenericPlatformMisc.h"

@@ -3,8 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Units/Building.h"
-#include "EnumTypes.h"
+#include "Units/Buildings/Building.h"
+#include "DataTypes/EnumTypes.h"
 #include "DefenseBuilding.generated.h"
 
 /**

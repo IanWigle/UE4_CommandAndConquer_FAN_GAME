@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
-#include "EnumTypes.h"
+#include "DataTypes/EnumTypes.h"
 #include "SpawningHelpers.generated.h"
 
 /**

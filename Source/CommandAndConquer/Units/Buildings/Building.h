@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Units/Unit.h"
+#include "Units/Living/Unit.h"
 #include "Building.generated.h"
 
 

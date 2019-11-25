@@ -3,8 +3,8 @@
 
 #include "InGameController.h"
 #include "PlayerCharacter.h"
-#include "HelperFunctions.h"
-#include "SpawningHelpers.h"
+#include "Helpers/HelperFunctions.h"
+#include "Helpers/SpawningHelpers.h"
 
 #include "Engine/World.h"
 
@@ -16,11 +16,11 @@
 #include "Components/BoxComponent.h"
 
 #pragma region Buildings
-#include "Units/Building.h"
-#include "Units/LivingUnit.h"
-#include "Units/Unit.h"
-#include "Units/Global/ConstructionYard.h"
-#include "Units/Global/Powerplant.h"
+#include "Units/Buildings/Building.h"
+#include "Units/Living/LivingUnit.h"
+#include "Units/Living/Unit.h"
+#include "Units/Buildings/Global/ConstructionYard.h"
+#include "Units/Buildings/Global/Powerplant.h"
 #include "Units/Buildings/Global/TiberiumRefinery.h"
 #include "Units/Buildings/Global/RepairFacility.h"
 #include "Units/Buildings/Global/Helipad.h"

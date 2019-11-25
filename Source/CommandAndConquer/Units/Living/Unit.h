@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "EnumTypes.h"
+#include "DataTypes/EnumTypes.h"
 #include "Unit.generated.h"
 
 

@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
-#include "EnumTypes.h"
+#include "DataTypes/EnumTypes.h"
 #include "GameModes/MultiPlayerGameMode.h"
 #include "PlayerCharacter.generated.h"
 

@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Superweapon.h"
-#include "HelperFunctions.h"
+#include "Helpers/HelperFunctions.h"
 #include "PlayerCharacter.h"
 #include "Engine/World.h"
 #include "Components/SkeletalMeshComponent.h"

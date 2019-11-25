@@ -3,7 +3,7 @@
 
 #include "ConstructionYard.h"
 #include "Animation/AnimMontage.h"
-#include "HelperFunctions.h"
+#include "Helpers/HelperFunctions.h"
 
 AConstructionYard::AConstructionYard()
 {

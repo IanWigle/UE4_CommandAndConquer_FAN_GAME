@@ -4,7 +4,7 @@
 #include "TempleOfNod.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/ArrowComponent.h"
-#include "HelperFunctions.h"
+#include "Helpers/HelperFunctions.h"
 #include "OtherEntities/NukeclearMissile.h"
 #include "Engine/World.h"
 

@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
-#include "EnumTypes.h"
+#include "DataTypes/EnumTypes.h"
 #include "Engine/World.h"
 
 #include "InGameController.generated.h"

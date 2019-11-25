@@ -2,7 +2,7 @@
 
 
 #include "SAM.h"
-#include "HelperFunctions.h"
+#include "Helpers/HelperFunctions.h"
 #include "Components/ArrowComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 
