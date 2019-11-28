@@ -64,13 +64,13 @@ protected:
 
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Credit Data")
         int m_Credits;
-    UPROPERTY(VisibleAnywhere, Category = "Credit Data")
+    UPROPERTY(VisibleAnywhere, AdvancedDisplay, Category = "Credit Data")
         int m_ConsumedBuildingCredits = 0;
-    UPROPERTY(VisibleAnywhere, Category = "Credit Data")
+    UPROPERTY(VisibleAnywhere, AdvancedDisplay, Category = "Credit Data")
         int m_BuildingCredits = 0;
-	UPROPERTY(VisibleAnywhere, Category = "Credit Data")
+	UPROPERTY(VisibleAnywhere, AdvancedDisplay, Category = "Credit Data")
 		int m_ConsumedUnitCredits = 0;
-	UPROPERTY(VisibleAnywhere, Category = "Credit Data")
+	UPROPERTY(VisibleAnywhere, AdvancedDisplay, Category = "Credit Data")
 		int m_UnitCredits = 0;
 	UPROPERTY(VisibleAnywhere, Category = "Credit Data")
 		int m_MaxCredits;
@@ -82,10 +82,10 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Power")
 		int m_UsablePower = 0;
 
-    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "YardPlayAnimation")
+    UPROPERTY(VisibleAnywhere, AdvancedDisplay, BlueprintReadWrite, Category = "YardPlayAnimation")
         bool m_YardIsMakingBuilding = false;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated)
 		PlayerFaction m_PlayerFaction;
 	
 public:	
@@ -97,61 +97,61 @@ public:
 
 #pragma region Buildings
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player Arsenal")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Buildings | Player Arsenal")
         TArray<class AUnit*> m_PlayerBuildings;
 
 #pragma region Building Templates
-    UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Player Arsenal")
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Buildings | Player Arsenal")
         TMap<FString, TSubclassOf<class ABuilding>> m_BuildingArsenal;
 #pragma endregion Building Templates    
 
 #pragma region Building Functions
-    UFUNCTION(BlueprintCallable, Category = "Building Production")
+    UFUNCTION(BlueprintCallable, Category = "Buildings | Building Production")
         void BeginBuildingProduction(BuildingID ID, int TotalCost, float TimeToBuild);
-    UFUNCTION(BlueprintCallable, Category = "Building Production")
+    UFUNCTION(BlueprintCallable, Category = "Buildings | Building Production")
         void CancelBuildingProduction();
-    UFUNCTION(BlueprintCallable, Category = "Building Production")
+    UFUNCTION(BlueprintCallable, Category = "Buildings | Building Production")
         bool IsMakingBuilding() { return m_ProducingBuilding; };
-    UFUNCTION(BlueprintCallable, Category = "Building Production")
+    UFUNCTION(BlueprintCallable, Category = "Buildings | Building Production")
         bool IsBuildingReady() { return m_BuildingIsReadyToBePlaced; }
-    UFUNCTION(BlueprintCallable, Category = "Building Production")
+    UFUNCTION(BlueprintCallable, Category = "Buildings | Building Production")
         void SetBuildingReady(bool state) { m_BuildingIsReadyToBePlaced = state; }
-    UFUNCTION(BlueprintCallable, Category = "Building Production")
+    UFUNCTION(BlueprintCallable, Category = "Buildings | Building Production")
         BuildingID GetBuildingBeingMadeByID() { return m_BuildingThatIsBeingMade; }
     UFUNCTION(BlueprintCallable)
         void SetSelectingLocation(bool state) { m_SelectingLocation = state; }
-    UFUNCTION(BlueprintCallable, Category = "Building Production")
+    UFUNCTION(BlueprintCallable, Category = "Buildings | Building Production")
         bool IsBuildingProductionPaused() { return m_IsBuildingMakingPaused; }
-    UFUNCTION(BlueprintCallable, Category = "Building Production")
+    UFUNCTION(BlueprintCallable, Category = "Buildings | Building Production")
         void SetBuildingPause(bool state) { m_IsBuildingMakingPaused = state; }
-    UFUNCTION(BlueprintCallable, Category = "Building Production")
+    UFUNCTION(BlueprintCallable, Category = "Buildings | Building Production")
         void SetSettingBuildingLocation(bool state) { m_SelectingLocation = state; }
-    UFUNCTION(BlueprintCallable, Category = "Building Production")
+    UFUNCTION(BlueprintCallable, Category = "Buildings | Building Production")
         void ChooseBuildingLocation(FVector requestedPosition);
     UFUNCTION(BlueprintCallable)
         bool IsSelectingLocation() { return m_SelectingLocation; }
-    /** Same as the CancelBuildingProduction but used for when a build was successfuly
+    /** Same as the CancelBuildingProduction but used for when a build was successfully
     made, therefore credits spent are not reset.*/
-    UFUNCTION(BlueprintCallable, Category = "Building Production")
+    UFUNCTION(BlueprintCallable, Category = "Buildings | Building Production")
         void ResetBuildingProduction();
 #pragma endregion Building Functions
 
 #pragma endregion Buildings
 
 #pragma region Camera and Radar
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera | Components")
         class UCameraComponent* m_PlayerCamera;
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera | Components")
         class USpringArmComponent* m_CameraArm;
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Radar | Components")
         class USpringArmComponent* m_RadarCameraArm;
-    UPROPERTY(EditAnywhere, Category = "Radar")
+    UPROPERTY(EditAnywhere, Category = "Radar | Components")
         class USceneCaptureComponent2D* RadarCamera;
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera Speeds")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera | Camera Speeds")
         float m_CameraMovementSpeed;
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera Speeds")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera | Camera Speeds")
         float m_CameraZoomSpeed;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Radar")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Radar | Misc")
 		float m_RadarZoomSpeed;
     UFUNCTION(BlueprintCallable, Category = "Radar")
         void ToggleRadar(bool state) { m_RadarEnabled = state; }
@@ -165,7 +165,7 @@ public:
 #pragma endregion Camera and Radar
 
 #pragma region Debug
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Debug")
         class UBoxComponent* m_Box;
 #pragma endregion Debug
 
@@ -185,7 +185,7 @@ public:
 		int GetPlayerUsablePower() { return m_UsablePower; }
 	UFUNCTION(BlueprintCallable, Exec)
 		void AddToPlayPower(int power);
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Exec)
 		void RemoveFromPlayerPower(int power);
 #pragma endregion Player Power
    
@@ -214,7 +214,7 @@ public:
 		bool IsMakingUnitPaused() { return m_IsUnitMakingPaused; }
 	UFUNCTION(BlueprintCallable, Category = "Unit Production")
 		LivingUnitID GetUnitBeingMadeByID() { return m_UnitThatIsBeingMade; }
-	/** Same as the CancelUnitProduction but used for when a build was successfuly
+	/** Same as the CancelUnitProduction but used for when a build was successfully
 		made, therefore credits spent are not reset.*/
 	UFUNCTION(BlueprintCallable, Category = "Unit Production")
 		void ResetUnitProduction();

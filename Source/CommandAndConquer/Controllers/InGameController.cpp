@@ -88,23 +88,32 @@ void AInGameController::Select()
 	APlayerCharacter* player = Cast<APlayerCharacter>(GetPawn());
 
 #pragma region Attacking Enemy
+	// Raycast from the screen space to world space.
 	if (GetHitResultUnderCursorByChannel(ETraceTypeQuery::TraceTypeQuery1, true, SelectingUnitHit))
 	{
+		// Get the Unit that was hit by the raycast and cast it to an AUnit called enemy
 		AUnit* enemy = Cast<AUnit>(SelectingUnitHit.GetActor());
 
+		// If cast was successful.
 		if (enemy)
 		{
+			// If we have units selected AND the enemy team is not our team
 			if (m_SelectedUnits.Num() > 0 && enemy->m_Team != player->m_PlayerTeam)
 			{
+				// For each selected unit
 				for (ALivingUnit* unit : m_SelectedUnits)
 				{
-					auto controller = Cast<AGeneralUnitAIController>(unit->GetController());
+					// Get the selected units controller and cast it to an AGeneralUnitAIController called controller.
+					AGeneralUnitAIController* controller = Cast<AGeneralUnitAIController>(unit->GetController());
 
+					// If cast was successful.
 					if (controller)
 					{
+						// Get the controllers blackboard and assign the blackboard key "EnemyActor" to our enemy.
 						controller->GetBlackboardComponent()->SetValueAsObject("EnemyActor", enemy);
 					}
 				}
+				// Exit the Select function.
 				return;
 			}
 		}
@@ -178,8 +187,6 @@ void AInGameController::Select()
 			// Get the ID of the building being made
 			BuildingID ID = player->GetBuildingBeingMadeByID();
 
-
-
 			// Is this the only building of this type?
 			if (player->DoWeUnlockNewTech(ID))
 			{
@@ -215,16 +222,24 @@ void AInGameController::Select()
 #pragma endregion Placing Buildings
 
 #pragma region Selecting superweapon target
+	// If we are selecting a target position for nuke.
 	if (player->IsSelectingLocationForNuke())
 	{
+		// Raycast from the screen space to world space.
 		if (GetHitResultUnderCursorByChannel(ETraceTypeQuery::TraceTypeQuery1, true, SelectingUnitHit) && !player->IsSelectingLocation())
 		{
-			auto temple = Cast<ASuperweapon>(UHelperFunctions::GetBuildingFromPlayerArsenal(BuildingID::VE_Temple, player->m_PlayerBuildings));
+			// Get the player's temple from their active buildings and cast it to a ASuperWeapon pointer called temple.
+			ASuperweapon* temple = Cast<ASuperweapon>(UHelperFunctions::GetBuildingFromPlayerArsenal(BuildingID::VE_Temple, player->m_PlayerBuildings));
+			// Set the TargetLocationForSuperweapon to the impact point from the raycast.
 			player->m_TargetLocationForSuperweapon = SelectingUnitHit.ImpactPoint;
+			// If temple is valid.
 			if (temple)
 			{
+				// Launch the superweapon.
 				temple->LaunchWeapon();
+				// Set the selection interface to false.
 				player->SetIsSelectingLocationForNuke(false);
+				// Leave the Select function.
 				return;
 			}
 		}
@@ -232,64 +247,82 @@ void AInGameController::Select()
 #pragma endregion
 
 #pragma region Sell Building
+	// IF Raycast from the screen space to world space was successful and we are in sell mode.
 	if (GetHitResultUnderCursorByChannel(ETraceTypeQuery::TraceTypeQuery1, true, SelectingUnitHit) && player->IsSelling())
 	{
-		auto building = Cast<ABuilding>(SelectingUnitHit.GetActor());
-
+		// Get the actor from the raycast hit and cast it to a ABuilding called building.
+		ABuilding* building = Cast<ABuilding>(SelectingUnitHit.GetActor());
+		// If building is valid.
 		if (building)
 		{
+			// Add credits to the player based on the buildings cost.
 			player->AddCredits(building->GetBuildingCost());
+			// Remove the building from the player's power system.
 			player->RemoveFromPlayerPower(building->GetPowerValue());
+			// Destroy the building.
 			building->Die();
 		}
 
+		// Turn off sell mode.
 		player->SetSelling(false);
 	}
 #pragma endregion
 
 #pragma region Toggle Building Power
+	// IF Raycast from the screen space to world space was successful and we are in toggle power mode.
 	if (GetHitResultUnderCursorByChannel(ETraceTypeQuery::TraceTypeQuery1, true, SelectingUnitHit) && player->IsTogglingPower())
 	{
-		auto building = Cast<ABuilding>(SelectingUnitHit.GetActor());
-
+		// Get the actor from the raycast hit and cast it to a ABuilding called building.
+		ABuilding* building = Cast<ABuilding>(SelectingUnitHit.GetActor());
+		// If building is valid.
 		if (building)
 		{
+			// If the building was set to have power.
 			if (building->m_HasPower == true)
 			{
-				building->m_HasPower = !building->m_HasPower;
+				// Set building m_HasPower to false;
+				building->m_HasPower = false;
+				// Remove this buildings power from the player's power system.
 				player->RemoveFromPlayerPower(building->GetPowerValue());
 			}
+			// Else if the building does not have power.
 			else if (building->m_HasPower == false)
 			{
-				building->m_HasPower = !building->m_HasPower;
+				// Set building m_HasPower to true.
+				building->m_HasPower = true;
+				// Add this buildings power to the player's power system.
 				player->AddToPlayPower(building->GetPowerValue());
 			}
 		}
+		// Turn off toggle power mode.
 		player->SetTogglePower(false);
 	}
 #pragma endregion Toggle Building Power
 
 #pragma region Toggle Repair
+	// IF Raycast from the screen space to world space was successful and we are in repair mode.
 	if (GetHitResultUnderCursorByChannel(ETraceTypeQuery::TraceTypeQuery1, true, SelectingUnitHit) && player->IsRepairing())
 	{
-		auto building = Cast<ABuilding>(SelectingUnitHit.GetActor());
-
+		// Get the actor from the raycast hit and cast it to a ABuilding called building.
+		ABuilding* building = Cast<ABuilding>(SelectingUnitHit.GetActor());
+		// If building is valid.
 		if (building)
 		{
+			// Check to make sure the building selected for repair is on our team.
 			if (building->m_Team == player->m_PlayerTeam)
 			{
-				if (building->m_IsBeingRepaired == false)
+				// Change state of m_IsBeingRepaired
+				building->m_IsBeingRepaired = !building->m_IsBeingRepaired;
+				/*if (building->m_IsBeingRepaired == false)
 					building->m_IsBeingRepaired = true;
 				else if (building->m_IsBeingRepaired == true)
-					building->m_IsBeingRepaired = false;
+					building->m_IsBeingRepaired = false;*/
 			}
 		}
-
+		// Set repair mode to false.
 		player->SetRepairing(false);
 	}
 #pragma endregion Toggle Repair
-
-
 }
 
 void AInGameController::SelectMultiple()
