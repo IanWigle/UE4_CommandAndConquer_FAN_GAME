@@ -26,7 +26,7 @@ Current functionalities:
 	Tech Tree
 		Tech Tree for NOD is established.
 
-For a more updated TODO:
+Todo page:
 ```https://trello.com/b/boiXCwAf/ue422-commandconquer```
 
 Current Plugins in use with project/engine:
