@@ -25,42 +25,10 @@ Current functionalities:
 		
 	Tech Tree
 		Tech Tree for NOD is established.
-		
 
-TODO (Code In order of priority):
+For a more updated TODO:
+```https://trello.com/b/boiXCwAf/ue422-commandconquer```
 
-	Establish remaining structures for both GDI and NOD.
-
-	Finish behavior trees for units to attack things.
-	Finish behavior trees for defenses to attack things.
-	
-	Redo Audio settings and audio component for music.
-	
-	Clean up code in both C++ and blueprints.
-	
-	Setup win condition
-	
-	Setup single player lobby that will save data to game instance for game properties.
-	
-TODO (Models)
-
-	GLOBAL:
-			Sandbags
-			ChainLink
-			Concrete Wall
-			
-			Transport (aircraft)
-
-	NOD:
-			Light Tank
-			Artillery
-
-			All infantry
-			
-	GDI:
-	
-			EVERYTHING
-			
 Current Plugins in use with project/engine:
 
 	Horizon UI Plugin
@@ -69,5 +37,4 @@ Current Plugins in use with project/engine:
 	Electronic Nodes
 	
 			
-For a more updated TODO:
-https://trello.com/b/boiXCwAf/ue422-commandconquer
+
