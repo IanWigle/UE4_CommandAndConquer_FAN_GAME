@@ -9,6 +9,7 @@
 #include "Online.h"
 #include <../Plugins/Online/OnlineSubsystem/Source/Public/OnlineSessionSettings.h>
 //#include "StructTypes.h"
+#include "DataTypes/LobbyStructs.h"
 #include "CnCGameInstance.generated.h"
 
 /**
@@ -25,8 +26,8 @@ public:
 	UCnCGameInstance(const FObjectInitializer& ObjectInitializer);
 
 protected:
-	/*UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Lobby")
-		TArray<FLobbyPlayerDetails> m_SinglePlayerDetails;*/
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Lobby")
+		TArray<FLobbyPlayerDetails> m_SinglePlayerDetails;
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float m_MasterAudioVolume;
@@ -35,10 +36,10 @@ public:
 		AActor* GetSpawnLocationFromLobby(int userIndex);
 
 #pragma region LobbyDetails
-	//UFUNCTION(BlueprintCallable, Category = "Lobby")
-	//	FLobbyPlayerDetails GetPlayerDetails(int index);
-//	UFUNCTION(BlueprintCallable, Category = "Lobby")
-//		void SetPlayerDetails(int index, FLobbyPlayerDetails playerdetails);
+	UFUNCTION(BlueprintCallable, Category = "Lobby")
+		FLobbyPlayerDetails GetPlayerDetails(int index);
+	UFUNCTION(BlueprintCallable, Category = "Lobby")
+		void SetPlayerDetails(int index, FLobbyPlayerDetails playerdetails);
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Lobby")
 		bool m_AllowCheats = false;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Lobby")

@@ -38,23 +38,24 @@ AActor* UCnCGameInstance::GetSpawnLocationFromLobby(int userIndex)
 	return nullptr;
 }
 
-//FLobbyPlayerDetails UCnCGameInstance::GetPlayerDetails(int index)
-//{
-//	if (m_SinglePlayerDetails.IsValidIndex(index))
-//	{
-//		return m_SinglePlayerDetails[index];
-//	}
-//
-//	return m_SinglePlayerDetails[0];
-//}
 
-//void UCnCGameInstance::SetPlayerDetails(int index, FLobbyPlayerDetails playerdetails)
-//{
-//	if (m_SinglePlayerDetails.IsValidIndex(index))
-//	{
-//		m_SinglePlayerDetails[index] = playerdetails;
-//	}
-//}
+FLobbyPlayerDetails UCnCGameInstance::GetPlayerDetails(int index)
+{
+	if (m_SinglePlayerDetails.IsValidIndex(index))
+	{
+		return m_SinglePlayerDetails[index];
+	}
+
+	return m_SinglePlayerDetails[0];
+}
+
+void UCnCGameInstance::SetPlayerDetails(int index, FLobbyPlayerDetails playerdetails)
+{
+	if (m_SinglePlayerDetails.IsValidIndex(index))
+	{
+		m_SinglePlayerDetails[index] = playerdetails;
+	}
+}
 
 #pragma region Session Handling
 
