@@ -33,7 +33,6 @@ Current Plugins in use with project/engine:
 
 	Horizon UI Plugin
 	Save Extension
-	Export PNG
 	Electronic Nodes
 	
 			
