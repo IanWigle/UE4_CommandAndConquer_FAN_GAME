@@ -40,7 +40,7 @@ APlayerCharacter::APlayerCharacter()
 
 	m_CameraArm = CreateDefaultSubobject<USpringArmComponent>("Camera Arm");
 	m_CameraArm->SetupAttachment(RootComponent);
-	m_CameraArm->bAbsoluteRotation = true;
+//	m_CameraArm->SetUsingAboluteRotation(true);
 	m_CameraArm->bDoCollisionTest = false;
 
 	m_PlayerCamera = CreateDefaultSubobject<UCameraComponent>("Player Camera");
@@ -53,7 +53,7 @@ APlayerCharacter::APlayerCharacter()
 
 	m_RadarCameraArm = CreateDefaultSubobject<USpringArmComponent>("Radar Camera Arm");
 	m_RadarCameraArm->SetupAttachment(RootComponent);
-	m_RadarCameraArm->bAbsoluteRotation = true;
+	m_RadarCameraArm->SetUsingAbsoluteRotation(true);
 	m_RadarCameraArm->bDoCollisionTest = false;
 
 	RadarCamera = CreateDefaultSubobject<USceneCaptureComponent2D>("Radar Camera");

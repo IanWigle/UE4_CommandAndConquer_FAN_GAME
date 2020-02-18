@@ -94,7 +94,7 @@ void ATiberiumCrystal::Grow()
 	switch (m_TiberiumLevel)
 	{
 	case TiberiumLevels::VE_LVL0:
-		m_ActiveModel->bVisible = false;
+		m_ActiveModel->SetVisibility(false);
 		break;
 	case TiberiumLevels::VE_LVL1:
 		m_ActiveModel->SetStaticMesh(m_SmallCrystal);
@@ -152,7 +152,7 @@ void ATiberiumCrystal::RefreshModels()
 	switch (m_TiberiumLevel)
 	{
 	case TiberiumLevels::VE_LVL0:
-		m_ActiveModel->bVisible = false;
+		m_ActiveModel->SetVisibility(false);
 		break;
 	case TiberiumLevels::VE_LVL1:
 		m_ActiveModel->SetStaticMesh(m_SmallCrystal);
