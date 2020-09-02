@@ -1,5 +1,7 @@
 # UE4_CommandAndConquer_FAN_GAME
 
+This codebase is out of date and no longer updated. 
+
 Current functionalities:
 
 	Can build structures and defenses. 
